@@ -1,4 +1,4 @@
-import '../../css/contact/edit_view.scss';
+import '../../css/contact/edit_view.css';
 
 import $ from 'jquery';
 import 'devbridge-autocomplete';
