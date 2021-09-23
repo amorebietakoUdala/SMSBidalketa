@@ -1,4 +1,4 @@
-import '../../css/label/new_view.scss';
+import '../../css/label/new_view.css';
 
 import $ from 'jquery';
 

@@ -1,4 +1,4 @@
-import '../../css/sending/sending_view.scss';
+import '../../css/sending/sending_view.css';
 
 import $ from 'jquery';
 import 'bootstrap-table';

@@ -1,4 +1,4 @@
-import '../../css/audit/list_view.scss';
+import '../../css/audit/list_view.css';
 
 import $ from 'jquery';
 import 'bootstrap-table';

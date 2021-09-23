@@ -1,19 +1,13 @@
 {
   "devDependencies": {
     "@babel/core": "^7.4.5",
-    "@symfony/webpack-encore": "^0.31.0",
+    "@symfony/webpack-encore": "^1.6.1",
     "autoprefixer": "^9.5.1",
-    "bootstrap-sass": "^3.4.1",
-    "copy-webpack-plugin": "^5.0.3",
     "core-js": "^3.1.2",
-    "node-sass": "^4.12.0",
-    "postcss-loader": "3.0.0",
+    "file-loader": "^6.0.0",
     "regenerator-runtime": "^0.13.2",
-    "sass-loader": "^9.0.1",
     "trim-newlines": "^3.0.1",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-notifier": "1.6.0",
-    "y18n": "^4.0.1"
+    "webpack-notifier": "1.6.0"
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -47,8 +41,7 @@
     "serialize-javascript": "^3.1.0",
     "ssri": "^8.0.1",
     "sweetalert2": "^8.11.6",
-    "tableexport.jquery.plugin": "^1.10.25",
-    "xmldom": "^0.5.0"
+    "tableexport.jquery.plugin": "^1.10.25"
   },
   "scripts": {
     "dev-server": "encore dev-server",
