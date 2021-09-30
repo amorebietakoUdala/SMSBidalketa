@@ -170,6 +170,7 @@ class ContactController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $contactDTO = new ContactDTO($contact);
 
+        $originalTelephone = $contact->getTelephone();
         $form = $this->createForm(ContactType::class, $contactDTO, []);
 
         $form->handleRequest($request);
@@ -178,7 +179,7 @@ class ContactController extends AbstractController
             $data = $form->getData();
             $telephone = $data->getTelephone();
             $contacts = $em->getRepository(Contact::class)->findBy(['telephone' => $telephone]);
-            if (count($contacts)) {
+            if (count($contacts) && $originalTelephone !== $telephone) {
                 $this->addFlash('error', 'Repeated telephone');
                 return $this->render('contact/edit.html.twig', [
                     'form' => $form->createView(),
