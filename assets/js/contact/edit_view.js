@@ -10,9 +10,10 @@ import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources
 $(document).ready(function(){
 	Routing.setRoutingData(routes);
 	var wrapper = $('.js-labels-wrapper');
-	wrapper.on('click','.js-label-remove', function (e) {
+	$(document).on('click','.js-label-remove', function (e) {
 		e.preventDefault();
-		$(this).closest('.js-label-item').remove();
+		$(this).parent().remove();
+		$(wrapper).find('#label_'+$(this).parent().data('id')).remove();
 	});
 	
 	wrapper.on('click','.js-label-add', function (e) {
