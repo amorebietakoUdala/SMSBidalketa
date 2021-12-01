@@ -134,6 +134,7 @@ choice.dinahosting: "Dinahosting"
 "Max results reached: %maxLimit%": "Ha llegado al número máximo de resultados %maxLimit%. Refine la búsqueda"
 "Your remaing credits are %credits%": "El crédito restante es: %credits%"
 "Repeated telephone": "Ese teléfono ya existe en la lista de contactos. No se puede actualizar"
+"Message too long": "El mensaje es demasiado largo. Tiene más de 160 caracteres."
 
 messages.confirmacion: "Confirmación"
 messages.results0: "No se han encontrado resultados"

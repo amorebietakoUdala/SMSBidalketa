@@ -131,6 +131,7 @@ choice.dinahosting: "Dinahosting"
 "Max results reached: %maxLimit%": "Emaitza kopurua maximora heldu da: %maxLimit%. Bilaketa zehaztu"
 "Your remaing credits are %credits%": "%credits% kredito geratzen dira."
 "Repeated telephone": "Telefono hori dagoeneko sartuta dago. Ezin da eguneratu."
+"Message too long": "Mezua luzeegia da. 160 karaktere baino gehiago dauzka."
 
 messages.confirmacion: "Konfirmazioa"
 messages.results0: "Ez da emaitzarik aurkitu"

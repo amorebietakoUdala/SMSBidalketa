@@ -44,6 +44,19 @@ function fireAlert (title,html,confirmationButtonText, cancelButtonText, url) {
 	});
 }
 
+function checkMessageLength(content) {
+	let size = 0;
+	for (var i = 0, len = content.length; i < len; i++) {
+		var charcode = content.charCodeAt(i);
+		// Those characters count double we add one more
+		if (charcode == 10 || charcode == 12 || charcode == 94 || charcode == 123 || charcode == 125 || charcode == 92 || charcode == 91 || charcode == 126 || charcode == 93 || charcode == 124 || charcode == 8364 ){
+			size+=1;
+		}
+		size+=1;
+	}
+	return size;
+}
+
 $(document).ready(function(){
     $('#sending_labels').select2();
 	$('#taula').bootstrapTable({
@@ -71,15 +84,22 @@ $(document).ready(function(){
 		});
 	});
 	var remaining_characters_text = $('#sending_message_help').text();
-	var remaining_characters = 160;
-	var text_length = 0;
+	let content = $('#sending_message').val();
+	var remaining_characters = 160 - checkMessageLength(content);
 	$('#sending_message_help').text($('#sending_message_help').text() + ": " + remaining_characters);
+
 	$('#sending_message').on('keyup', function () {
-		text_length = $('#sending_message').val().length;
-		remaining_characters = 160 - text_length;
+		let content = $('#sending_message').val();
+		let size = checkMessageLength(content);
+		remaining_characters = 160 - size;
 		$('#sending_message_help').text(remaining_characters_text + ": " + remaining_characters);
+		if (remaining_characters <= 0) {
+			$('#sending_message').attr('maxlength',content.length);
+			$('#js-btn-send').prop("disabled",true);
+		} else {
+			$('#js-btn-send').prop("disabled",false);
+		}
 	});
-	
 	
 	$('#js-btn-send').on('click',function(e){
 		e.preventDefault();
@@ -131,16 +151,19 @@ $(document).ready(function(){
 		var cancel = e.currentTarget.dataset.cancel;
 		fireAlert(confirmation,message,confirm,cancel,url);
 	});
+
 	$('#js-btn-search').on('click',function(e){
 		e.preventDefault();
 		var form = $('#form');
 		$(form).attr('action',e.currentTarget.dataset.url);
 		form.submit();
 	});
+
     $('.js-datetimepicker').datetimepicker({
 		format: 'YYYY-MM-DD HH:mm',
 		sideBySide: true,
 		locale: $('html').attr('lang'),
 	});
+
 	$('#taula').bootstrapTable('checkAll');
 });

@@ -30,7 +30,7 @@ class SendingController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var $data SendingDTO */
+            /** @var $data SendingDTO */
             $data = $form->getData();
             $selected = json_decode($data->getSelected());
             $idsAndTelephones = $this->__extractIdsAndTelephones($selected);
@@ -57,7 +57,6 @@ class SendingController extends AbstractController
                 ]);
             }
             try {
-                //                $credit = 1000;
                 $credit = $smsapi->getCredit();
             } catch (\Exception $e) {
                 $this->addFlash('error', 'An error has ocurred: ' . $e->getMessage());
@@ -82,6 +81,16 @@ class SendingController extends AbstractController
             // Del conjunto caracteres válido están excluidos 4: la é, É, ñ y Ñ aunque están en el juego de caracteres válido.
             if (!$this->__checkGSM7ValidCharacters($data->getMessage())) {
                 $this->addFlash('error', 'Message has invalid characters');
+
+                return $this->render('sending/list.html.twig', [
+                    'form' => $form->createView(),
+                    'contacts' => [],
+                    'credits' => $credit,
+                ]);
+            }
+
+            if (strlen($data->getMessage()) > 160) {
+                $this->addFlash('error', 'Message too long');
 
                 return $this->render('sending/list.html.twig', [
                     'form' => $form->createView(),
@@ -141,7 +150,7 @@ class SendingController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var $data ContactDTO */
+            /** @var $data ContactDTO */
             $data = $form->getData();
             if (count($data->getLabels()) > 0) {
                 $contacts = $em->getRepository(Contact::class)->findByLabels($data->getLabels());
