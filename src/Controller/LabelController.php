@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Label;
 use App\Form\LabelType;
+use App\Repository\LabelRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,11 +19,9 @@ class LabelController extends AbstractController
     /**
      * @Route("/labels", name="label_list")
      */
-    public function listAction()
+    public function listAction(LabelRepository $repo)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $labels = $em->getRepository(Label::class)->findAll();
+        $labels = $repo->findAll();
 
         return $this->render('label/list.html.twig', [
             'labels' => $labels,
@@ -30,15 +31,14 @@ class LabelController extends AbstractController
     /**
      * @Route("/label/new", name="label_new")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, LabelRepository $repo, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(LabelType::class, new Label());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /* @var $data Label */
             $data = $form->getData();
-            $exists = $em->getRepository(Label::class)->findOneBy([
+            $exists = $repo->findOneBy([
                 'name' => $data->getName(),
             ]);
             if ($exists) {
@@ -75,9 +75,8 @@ class LabelController extends AbstractController
     /**
      * @Route("/label/{label}/edit", name="label_edit")
      */
-    public function editAction(Request $request, Label $label)
+    public function editAction(Request $request, Label $label, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(LabelType::class, $label);
 
         $form->handleRequest($request);
@@ -100,9 +99,8 @@ class LabelController extends AbstractController
     /**
      * @Route("/label/{label}/delete", name="label_delete")
      */
-    public function deleteAction(Label $label)
+    public function deleteAction(Label $label, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
         $em->remove($label);
         $em->flush();
 

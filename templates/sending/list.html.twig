@@ -54,12 +54,12 @@
 	    {% if contacts is defined and contacts|length > 0 %}
 	    <table id="taula" class="table bootstrap-table mt-3">
 		<thead>
-		    <tr class="row">
-			<th data-checkbox="true" ></th>
-			<th data-field="id" data-sortable="true">{{"contact.id" | trans | capitalize}}</th>
-			<th data-field="fullname" data-sortable="true">{{"contact.fullname" | trans | capitalize}}</th>
-			<th data-field="telephone" data-sortable="true">{{"contact.telephone" | trans | capitalize}}</th>
-		    </tr>
+		   <tr>
+				<th data-checkbox="true" ></th>
+				<th data-field="id" data-sortable="true">{{"contact.id" | trans | capitalize}}</th>
+				<th data-field="fullname" data-sortable="true">{{"contact.fullname" | trans | capitalize}}</th>
+				<th data-field="telephone" data-sortable="true">{{"contact.telephone" | trans | capitalize}}</th>
+		   </tr>
 		</thead>
 		<tbody>
 			{% for contact in contacts %}
@@ -67,7 +67,7 @@
 				<td></td>
 				<td>{{contact.id}}</td>
 				<td>{{contact.fullname}}</td>
-			    <td>{{contact.telephone}}</td>
+			   <td>{{contact.telephone}}</td>
 			</tr>
 			{% endfor %}
 		</tbody>

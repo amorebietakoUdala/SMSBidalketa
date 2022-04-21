@@ -1644,10 +1644,10 @@ bootstrap-datepicker@^1.9.0:
   dependencies:
     jquery ">=1.7.1 <4.0.0"
 
-bootstrap-table@1.14.2:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-table/-/bootstrap-table-1.14.2.tgz#d8f5673de5b35bbdf368488375f5a6f9395b7cdc"
-  integrity sha512-TlB8YnAGg7SNixmwjre3zftOOostSfCF3zGpDUGD7xNsqVI2RwTAM5m9CPjgJe7fKVkid+EcfjEwKafr0kFnbQ==
+bootstrap-table@^1.14.2:
+  version "1.19.1"
+  resolved "https://registry.yarnpkg.com/bootstrap-table/-/bootstrap-table-1.19.1.tgz#c88384a2993d8df9618b80fee147f1bf1cb2d7c1"
+  integrity sha512-WvV+l1AI/C+zThaKmfHmi/IuayVNB0qdFyEhFx1jyZhO0oLtNJNANkCR3rvJf6Dkh72dsLElxpE/bzK9seEQLA==
 
 bootstrap@^3.3:
   version "3.4.1"

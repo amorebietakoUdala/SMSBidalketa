@@ -21,11 +21,11 @@
 	<div class="container-fluid">
 		<table id="taula" class="table bootstrap-table mt-3"  data-locale="es-{{ app.request.locale | upper }}">
 		<thead>
-		    <tr class="row">
-			<th data-sortable="true">{{"label.id" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"label.name" | trans | capitalize}}</th>
-			<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
-		    </tr>
+		   <tr>
+				<th data-sortable="true">{{"label.id" | trans | capitalize}}</th>
+				<th data-sortable="true">{{"label.name" | trans | capitalize}}</th>
+				<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
+		   </tr>
 		</thead>
 		<tbody>
 		    {% if labels is defined and labels|length > 0 %}

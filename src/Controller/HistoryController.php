@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\HistorySearchDTO;
 use App\Entity\History;
 use App\Form\HistorySearchType;
+use App\Repository\HistoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,10 +18,9 @@ class HistoryController extends AbstractController
     /**
      * @Route("/history", name="history_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, HistoryRepository $repo)
     {
         $maxLimit = $this->getParameter('historyMaxLimit');
-        $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm(HistorySearchType::class, new HistorySearchDTO());
 
@@ -29,7 +29,7 @@ class HistoryController extends AbstractController
             /* @var $data HistorySearchDTO */
             $data = $form->getData();
             $criteria = $data->toArray();
-            $histories = $em->getRepository(History::class)->findByDates($criteria, ['date' => 'DESC'], $maxLimit);
+            $histories = $repo->findByDates($criteria, ['date' => 'DESC'], $maxLimit);
 
             if (count($histories) === $maxLimit) {
                 $this->addFlash('warning', 'Max results reached: %maxLimit%');

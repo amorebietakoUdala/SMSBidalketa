@@ -8,6 +8,8 @@ use App\Entity\Audit;
 use App\Entity\Contact;
 use App\Form\SendingType;
 use AmorebietakoUdala\SMSServiceBundle\Services\SmsServiceApi;
+use App\Repository\ContactRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,10 +23,9 @@ class SendingController extends AbstractController
     /**
      * @Route("/sending/send", name="sending_send")
      */
-    public function sendingSendAction(Request $request, SmsServiceApi $smsapi, LoggerInterface $logger)
+    public function sendingSendAction(Request $request, SmsServiceApi $smsapi, LoggerInterface $logger, EntityManagerInterface $em)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $em = $this->getDoctrine()->getManager();
         $sendingDTO = new SendingDTO();
         $form = $this->createForm(SendingType::class, $sendingDTO);
 
@@ -143,9 +144,8 @@ class SendingController extends AbstractController
     /**
      * @Route("/sending", name="sending_search")
      */
-    public function sendSearchAction(Request $request, SmsServiceApi $smsapi)
+    public function sendSearchAction(Request $request, SmsServiceApi $smsapi, ContactRepository $repo)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
         $form->handleRequest($request);
@@ -153,9 +153,9 @@ class SendingController extends AbstractController
             /** @var $data ContactDTO */
             $data = $form->getData();
             if (count($data->getLabels()) > 0) {
-                $contacts = $em->getRepository(Contact::class)->findByLabels($data->getLabels());
+                $contacts = $repo->findByLabels($data->getLabels());
             } else {
-                $contacts = $em->getRepository(Contact::class)->findAll();
+                $contacts = $repo->findAll();
             }
 
             return $this->render('sending/list.html.twig', [
