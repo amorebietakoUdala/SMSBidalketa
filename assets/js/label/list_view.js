@@ -1,12 +1,12 @@
 import '../../css/label/list_view.css';
 
 import $ from 'jquery';
-import 'bootstrap-table';
+import 'tableexport.jquery.plugin/tableExport.min';
+import 'bootstrap-table/dist/bootstrap-table.min';
 import 'bootstrap-table/dist/extensions/export/bootstrap-table-export'
 import 'bootstrap-table/dist/locale/bootstrap-table-eu-EU';
 import 'bootstrap-table/dist/locale/bootstrap-table-es-ES';
-import 'tableexport.jquery.plugin/tableExport.min';
-import 'jquery-ui';
+//import 'jquery-ui';
 // import Swal from 'sweetalert2';
 
 function fireAlert (title,html,confirmationButtonText, cancelButtonText, url) {

@@ -7,7 +7,10 @@ use App\Entity\Contact;
 use App\Entity\Label;
 use App\Form\ContactImportType;
 use App\Form\ContactType;
+use App\Repository\ContactRepository;
+use App\Repository\LabelRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use League\Csv\Reader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,15 +22,23 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ContactController extends AbstractController
 {
+    private $em;
+    private $labelRepo;
+
+    public function __construct(EntityManagerInterface $em, LabelRepository $labelRepo)
+    {
+        $this->em = $em;
+        $this->labelRepo = $labelRepo;
+    }
+
     /**
      * @Route("/contacts/import", name="contact_import")
      */
-    public function importAction(Request $request)
+    public function importAction(Request $request, ContactRepository $repo)
     {
         $form = $this->createForm(ContactImportType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $already_existing_contacts = [];
             $repeated_contacts = [];
             $invalid_contacts = [];
@@ -47,7 +58,6 @@ class ContactController extends AbstractController
                     ]);
                 }
                 $records = $this->__readRecordsFromFile($file, $separator);
-                $repo = $em->getRepository(Contact::class);
                 foreach ($records as $record) {
                     $contactDTO = new ContactDTO();
                     $contactDTO->extractFromArray($record);
@@ -71,7 +81,7 @@ class ContactController extends AbstractController
                 }
                 $labels = $form['labels']->getData();
                 $this->__assignLabelsToContacts(array_values($contacts_without_repeated), $labels);
-                $em->flush();
+                $this->em->flush();
                 $this->addFlash('success', 'File successfully processed');
                 $message = '';
                 if (count($already_existing_contacts) > 0) {
@@ -105,7 +115,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/contacts", name="contact_list")
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, ContactRepository $repo)
     {
         $contacts = [];
         $form = $this->createForm(\App\Form\ContactSearchType::class, new ContactDTO());
@@ -115,8 +125,7 @@ class ContactController extends AbstractController
             $data = $form->getData();
             $contact = new Contact();
             $data->fill($contact);
-            $em = $this->getDoctrine()->getManager();
-            $contacts = $em->getRepository(Contact::class)->findByExample($contact);
+            $contacts = $repo->findByExample($contact);
         }
 
         return $this->render('contact/list.html.twig', [
@@ -128,15 +137,14 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact/new", name="contact_new")
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, ContactRepository $repo)
     {
-        $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(ContactType::class, new ContactDTO());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /* @var $data ContactDTO */
             $data = $form->getData();
-            $exists = $em->getRepository(Contact::class)->findOneBy([
+            $exists = $repo->findOneBy([
                 'telephone' => $data->getTelephone(),
             ]);
             if ($exists) {
@@ -150,8 +158,8 @@ class ContactController extends AbstractController
             $this->__removeCollectionDuplicates($labels, $this->__removeLabelDuplicates($labels));
             $contact = new Contact();
             $data->fill($contact);
-            $em->persist($contact);
-            $em->flush();
+            $this->em->persist($contact);
+            $this->em->flush();
             $this->addFlash('success', 'Contact saved');
 
             return $this->redirectToRoute('contact_list');
@@ -165,9 +173,8 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact/{contact}/edit", name="contact_edit")
      */
-    public function editAction(Request $request, Contact $contact)
+    public function editAction(Request $request, Contact $contact, ContactRepository $repo)
     {
-        $em = $this->getDoctrine()->getManager();
         $contactDTO = new ContactDTO($contact);
 
         $originalTelephone = $contact->getTelephone();
@@ -178,7 +185,7 @@ class ContactController extends AbstractController
             /* @var $data ContactDTO */
             $data = $form->getData();
             $telephone = $data->getTelephone();
-            $contacts = $em->getRepository(Contact::class)->findBy(['telephone' => $telephone]);
+            $contacts = $repo->findBy(['telephone' => $telephone]);
             if (count($contacts) && $originalTelephone !== $telephone) {
                 $this->addFlash('error', 'Repeated telephone');
                 return $this->render('contact/edit.html.twig', [
@@ -190,8 +197,8 @@ class ContactController extends AbstractController
             $labels = $data->getLabels();
             $this->__removeCollectionDuplicates($labels, $this->__removeLabelDuplicates($labels));
             $data->fill($contact);
-            $em->persist($contact);
-            $em->flush();
+            $this->em->persist($contact);
+            $this->em->flush();
             $this->addFlash('success', 'Contact saved');
 
             return $this->redirectToRoute('contact_list');
@@ -225,9 +232,8 @@ class ContactController extends AbstractController
      */
     public function deleteAction(Contact $contact)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($contact);
-        $em->flush();
+        $this->em->remove($contact);
+        $this->em->flush();
         $this->addFlash('success', 'Contact deleted');
 
         return $this->redirectToRoute('contact_list');
@@ -254,10 +260,9 @@ class ContactController extends AbstractController
 
     private function __removeCollectionDuplicates($labels, $uniques)
     {
-        $em = $this->getDoctrine()->getManager();
         $labels->clear();
         foreach ($uniques as $unique) {
-            $label = $em->getRepository(Label::class)->findOneBy(['name' => $unique]);
+            $label = $this->labelRepo->findOneBy(['name' => $unique]);
             if (null === $label) {
                 $label = new Label();
                 $label->setName($unique);
@@ -297,17 +302,16 @@ class ContactController extends AbstractController
 
     private function __assignLabelsToContacts($contacts, $labels)
     {
-        $em = $this->getDoctrine()->getManager();
         foreach ($contacts as $contact) {
             foreach ($labels as $label) {
-                $label2 = $em->getRepository(Label::class)->findOneBy(['name' => $label->getName()]);
+                $label2 = $this->labelRepo->findOneBy(['name' => $label->getName()]);
                 if (null === $label2) {
                     $contact->addLabel($label);
                 } else {
                     $contact->addLabel($label2);
                 }
             }
-            $em->persist($contact);
+            $this->em->persist($contact);
         }
     }
 

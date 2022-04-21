@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Audit;
 use App\Entity\Contact;
 use App\Entity\Label;
+use App\Repository\LabelRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,10 +23,9 @@ class RestApiController extends AbstractController
      *
      * @Route("/labels", name="api_get_labels", options={"expose"=true})
      */
-    public function getLabelsAction(Request $request)
+    public function getLabelsAction(Request $request, LabelRepository $repo)
     {
         $query = $request->get('name');
-        $repo = $this->getDoctrine()->getRepository(Label::class);
         $labels = $repo->findLabelsThatContain($query);
 
         return $this->json(['labels' => $labels], Response::HTTP_OK, [], [
@@ -38,9 +39,8 @@ class RestApiController extends AbstractController
      *
      * @Route("/contact/{contact}/label/{label}/remove", name="api_remove_contact_label")
      */
-    public function deleteLabelRemoveAction(Contact $contact, Label $label)
+    public function deleteLabelRemoveAction(Contact $contact, Label $label, EntityManagerInterface $em)
     {
-        $em = $this->getDoctrine()->getManager();
         $contact->removeLabel($label);
         $em->persist($contact);
         $em->flush();
