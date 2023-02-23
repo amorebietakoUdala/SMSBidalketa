@@ -10,12 +10,14 @@ namespace App\Command;
 
 use AmorebietakoUdala\SMSServiceBundle\Providers\SmsAcumbamailApi;
 use App\Entity\History;
+use App\Repository\HistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Description of AcumbamailSmsHistoryCommand.
@@ -29,11 +31,13 @@ class AcumbamailSmsHistoryCommand extends Command
     private $em;
     private $smsApi;
     private $provider = 'Acumbamail';
+    private $repo;
 
-    public function __construct(EntityManagerInterface $em, SmsAcumbamailApi $smsApi)
+    public function __construct(EntityManagerInterface $em, SmsAcumbamailApi $smsApi, HistoryRepository $repo)
     {
         $this->em = $em;
         $this->smsApi = $smsApi;
+        $this->repo = $repo;    
 
         parent::__construct();
     }
@@ -49,12 +53,17 @@ class AcumbamailSmsHistoryCommand extends Command
             ->setHelp('Gets the last History messages from SMS provider API and stores them in the database.')
             ->addArgument('start_date', InputArgument::OPTIONAL, 'Start Date in "YYYY-MM-DD HH:MM" format use quotation marks')
             ->addArgument('end_date', InputArgument::OPTIONAL, 'End Date in "YYYY-MM-DD HH:MM" format use quotation marks')
+            ->addOption('print','-p',InputOption::VALUE_NONE,'Show results and briefing')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->getHistory($input, $output);
+        $histories = $this->getHistory($input, $output);
+        if ($input->getOption('print')) {
+            dump($histories);
+            dump('Total histories: '. count($histories));
+        };
 
         return Command::SUCCESS;
     }
@@ -96,19 +105,21 @@ class AcumbamailSmsHistoryCommand extends Command
             }
             foreach ($api_histories as $record) {
                 if ($record['sms_id'] > $lastId) {
-                    $history = new History($record, $this->provider);
-                    $histories[] = $history;
-                    $this->em->persist($history);
-                    $found = true;
+                    $history = new History();
+                } else {
+                    /** @var History $history */
+                    $history = $this->repo->findOneBy(['providerId' => $record['sms_id']]);
                 }
+                $history->loadFromArray($record, $this->provider);
+                $histories[] = $history;
+                $this->em->persist($history);
             }
-            if ($found) {
+            if (count($api_histories) > 0) {
                 $this->em->flush();
             }
         } catch (Exception $e) {
             $output->writeln('<error>ERROR: '.$e->getMessage().'</error>');
         }
-
         return $histories;
     }
 }

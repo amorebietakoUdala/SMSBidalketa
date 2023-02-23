@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="history")
+ * @ORM\Table(name="history",indexes={@ORM\Index(name="providerId_idx", columns={"providerId"})})
  * @ORM\Entity(repositoryClass="App\Repository\HistoryRepository")
  */
 class History
@@ -80,9 +80,9 @@ class History
     {
         if ($history) {
             if (is_array($history)) {
-                $this->__extractFromArray($history, $provider);
+                $this->loadFromArray($history, $provider);
             } else {
-                $this->__extractFromJson($history, $provider);
+                $this->loadFromJson($history, $provider);
             }
         }
     }
@@ -207,7 +207,7 @@ class History
         return $this;
     }
 
-    private function __extractFromJson($json, $provider)
+    public function loadFromJson($json, $provider)
     {
         if ('Dinahosting' === $provider) {
             $this->setProviderId($json->{'id'});
@@ -236,7 +236,7 @@ class History
         $this->setProvider($provider);
     }
 
-    private function __extractFromArray($array, $provider)
+    public function loadFromArray($array, $provider)
     {
         if ('Dinahosting' === $provider) {
             $this->setProviderId($array['id']);
