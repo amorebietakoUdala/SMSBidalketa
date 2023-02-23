@@ -26,7 +26,7 @@ class HistoryController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var $data HistorySearchDTO */
+            /** @var HistorySearchDTO $data */
             $data = $form->getData();
             $criteria = $data->toArray();
             $histories = $repo->findByDates($criteria, ['date' => 'DESC'], $maxLimit);

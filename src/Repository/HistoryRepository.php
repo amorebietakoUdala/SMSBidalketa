@@ -37,6 +37,16 @@ class HistoryRepository extends ServiceEntityRepository
             $qb->setParameter('text', '%'.$criteria['text'].'%');
             unset($criteria['text']);
         }
+        if (array_key_exists('status', $criteria) and null !== $criteria['status']) {
+            if ( $criteria['status'] === History::STATUS_SENT ) {
+                $qb->andWhere('h.status = :status');
+                $qb->setParameter('status', History::STATUS_SENT);
+            } else {
+                $qb->andWhere('h.status <> :status');
+                $qb->setParameter('status', History::STATUS_SENT);
+            }
+            unset($criteria['status']);
+        }
         foreach ($this->__remove_blank_filters($criteria) as $key => $value) {
             $qb->andWhere('h.'.$key.'= :'.$key);
             $qb->setParameter($key, $value);
@@ -49,7 +59,6 @@ class HistoryRepository extends ServiceEntityRepository
         if (null !== $limit) {
             $qb->setMaxResults($limit);
         }
-
         $result = $qb->getQuery()->getResult();
 
         return $result;

@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class History
 {
+
+    const STATUS_SENT="SENT";
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
