@@ -259,7 +259,7 @@ class History
             $this->setSenderAccount($array['sender']);
             $this->setRctpNameNumber($array['phone']);
             $this->setText($array['sms_content']);
-            if ('DELIVERED' === $array['status']) {
+            if ('DELIVERED' === $array['status'] || 'Entregado' === $array['status']) {
                 $this->setStatus('SENT');
             } else {
                 $this->setStatus($array['status']);
