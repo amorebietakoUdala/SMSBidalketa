@@ -4,20 +4,36 @@ namespace App\Controller;
 
 use App\Entity\Audit;
 use App\Entity\Contact;
+use App\Entity\History;
 use App\Entity\Label;
+use App\Repository\AuditRepository;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
+
 /**
  * @Route("/api")
  */
 class RestApiController extends AbstractController
 {
+
+    private LoggerInterface $logger;
+    private AuditRepository $auditRepo;
+    private EntityManagerInterface $em;
+
+    public function __construct(LoggerInterface $logger, AuditRepository $auditRepo, EntityManagerInterface $em)
+    {
+        $this->logger = $logger;
+        $this->auditRepo = $auditRepo;
+        $this->em = $em;
+    }
+
     /**
      * Retrieves an Labels resource.
      *
@@ -60,4 +76,44 @@ class RestApiController extends AbstractController
 
         return $this->json($telephones, Response::HTTP_OK);
     }
+
+    /**
+     * Returns a list of telephones from the given audit.
+     *
+     * @Route("/sending/smspubli/confirmation", name="api_sending_smspubli_confirmation")
+     */
+    public function sendingSmsPubliConfirmation(Request $request)
+    {
+        # Confirmation request example
+        //$json ='[{"sms_id":"35d6b03f92d542c789c7231917208ca7","from":"AMOREBIETA","to":"34655708598","custom":"1678104508344","sms_date":"2023-03-06 13:08:32","status":"DELIVRD","dlr_date":"2023-03-06 13:08:32"}]';
+        $json = $request->getContent();
+        $this->logger->debug('Confirmation:'. $json);
+        if ($json !== null && !empty($json)) {
+            $confirmations = json_decode($json, true);
+            $id = null;
+            foreach ($confirmations as $key =>$value) {
+                if ($id !== $value['custom'] ) {
+                    $id = $value['custom'];
+                    /** @var Audit|null $audit */
+                    $audit = $this->auditRepo->findOneBy([
+                        'deliveryId' => $id
+                    ]);
+                    if ($audit !== null) {
+                        $text = $audit->getMessageContent();
+                        $value['text'] = $text;
+                    }
+                }
+                $history = new History();
+                $history->setProvider('Smspubli');
+                $history->loadFromArray($value, 'Smspubli');
+                $this->em->persist($history);
+                $this->em->flush();
+            }
+            return $this->json('', Response::HTTP_NO_CONTENT);
+        }
+        $this->logger->debug('Confirmation: Empty');
+        return $this->json('', Response::HTTP_NO_CONTENT);
+        
+    }
+
 }

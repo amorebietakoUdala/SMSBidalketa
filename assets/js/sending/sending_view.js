@@ -58,7 +58,7 @@ function checkMessageLength(content) {
 }
 
 $(document).ready(function(){
-    $('#sending_labels').select2();
+   $('#sending_labels').select2();
 	$('#taula').bootstrapTable({
 		cache : false,
 		showExport: true,

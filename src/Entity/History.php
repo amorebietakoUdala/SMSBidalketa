@@ -32,7 +32,7 @@ class History
     /**
      * @var string
      *
-     * @ORM\Column(name="providerId", type="bigint", length=50, nullable=true)
+     * @ORM\Column(name="providerId", type="string", length=50, nullable=true)
      */
     private $providerId;
 
@@ -241,30 +241,57 @@ class History
 
     public function loadFromArray($array, $provider)
     {
-        if ('Dinahosting' === $provider) {
-            $this->setProviderId($array['id']);
-            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['date']);
-            $this->setDate($date);
-            $this->setSenderAccount($array['from']);
-            $this->setRctpNameNumber($array['rctp_name_number']);
-            $this->setText($array['text']);
-            $this->setIp($array['ip']);
-            $this->setStatus($array['status']);
-            $this->setEsUnicode($array['es_unicode']);
-        }
-        if ('Acumbamail' === $provider) {
-            $this->setProviderId($array['sms_id']);
-            $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['sent_at']);
-            $this->setDate($date);
-            $this->setSenderAccount($array['sender']);
-            $this->setRctpNameNumber($array['phone']);
-            $this->setText($array['sms_content']);
-            if ('DELIVERED' === $array['status'] || 'Entregado' === $array['status']) {
-                $this->setStatus('SENT');
-            } else {
-                $this->setStatus($array['status']);
-            }
+        switch ($provider) {
+            case 'Dinahosting':
+                $this->loadDinahostingFromArray($array);
+                break;
+            case 'Acumbamail':
+                $this->loadAcumbamailFromArray($array);
+                break;
+            case 'Smspubli':
+                $this->loadSmsPubliFromArray($array);
+                break;
         }
         $this->setProvider($provider);
+    }
+
+    private function loadSmsPubliFromArray($array) {
+        $this->setProviderId($array['sms_id']);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['sms_date']);
+        $this->setDate($date);
+        $this->setSenderAccount($array['from']);
+        $this->setRctpNameNumber(substr($array['to'],2));
+        $this->setText($array['text']);
+        if ('DELIVRD' === $array['status'] ) {
+            $this->setStatus('SENT');
+        } else {
+            $this->setStatus($array['status']);
+        }
+    }
+
+    private function loadAcumbamailFromArray($array) {
+        $this->setProviderId($array['sms_id']);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['sent_at']);
+        $this->setDate($date);
+        $this->setSenderAccount($array['sender']);
+        $this->setRctpNameNumber($array['phone']);
+        $this->setText($array['sms_content']);
+        if ('DELIVERED' === $array['status'] || 'Entregado' === $array['status']) {
+            $this->setStatus('SENT');
+        } else {
+            $this->setStatus($array['status']);
+        }
+    }
+
+    private function loadDinahostingFromArray($array) {
+        $this->setProviderId($array['id']);
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['date']);
+        $this->setDate($date);
+        $this->setSenderAccount($array['from']);
+        $this->setRctpNameNumber($array['rctp_name_number']);
+        $this->setText($array['text']);
+        $this->setIp($array['ip']);
+        $this->setStatus($array['status']);
+        $this->setEsUnicode($array['es_unicode']);
     }
 }

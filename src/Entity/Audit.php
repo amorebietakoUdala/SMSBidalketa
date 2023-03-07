@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="audit")
+ * @ORM\Table(name="audit",indexes={
+ *     @ORM\Index(name="deliveryId_idx", columns={"deliveryId"})
+ * })
  * @ORM\Entity(repositoryClass="App\Repository\AuditRepository")
  */
 class Audit
@@ -54,6 +57,27 @@ class Audit
      * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
      */
     private $user;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="deliveryId", type="bigint")
+     */
+    private $deliveryId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="messageContent", type="string", nullable="true")
+     */
+    private $messageContent;
+
+    public function __construct()
+    {
+        $date = new DateTimeImmutable();
+        $milli = (int)$date->format('Uv'); // Timestamp in milliseconds
+        $this->deliveryId = $milli;
+    }
 
     public function getId()
     {
@@ -132,7 +156,7 @@ class Audit
         return $this;
     }
 
-    public static function createAudit(array $telephones, $responseCode, $message, $fullResponse, $user): Audit
+    public static function createAudit(array $telephones, $responseCode, $message, $fullResponse, $user, $messageContent = null): Audit
     {
         $audit = new self();
         $audit->setTelephones(json_encode($telephones));
@@ -141,7 +165,32 @@ class Audit
         $audit->setMessage($message);
         $audit->setResponse(json_encode($fullResponse));
         $audit->setUser($user);
+        $audit->setMessageContent($messageContent);
 
         return $audit;
+    }
+
+    public function getDeliveryId()
+    {
+        return $this->deliveryId;
+    }
+
+    public function setDeliveryId(string $deliveryId)
+    {
+        $this->deliveryId = $deliveryId;
+
+        return $this;
+    }
+
+    public function getMessageContent()
+    {
+        return $this->messageContent;
+    }
+
+    public function setMessageContent(string $messageContent)
+    {
+        $this->messageContent = $messageContent;
+
+        return $this;
     }
 }

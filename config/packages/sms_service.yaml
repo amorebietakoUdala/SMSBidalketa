@@ -1,5 +1,5 @@
 sms_service:
-    provider: '%env(SMS_PROVIDER)%' # Acumbamail o Dinahosting
+    provider: '%env(SMS_PROVIDER)%' # Acumbamail o Dinahosting o SmsPubli
     test: '%env(bool:SMS_TEST)%'
     providers:
         dinahosting: 
@@ -13,3 +13,13 @@ sms_service:
             timeout: 20.0
             sender: 'AMOREBIETA'
             countryCode: '34'
+        smspubli:
+            sender: 'AMOREBIETA'
+            #subAccountName: '%env(SMS_PUBLI_SUBACCOUNT_NAME)%'
+            unitaryCost: '%env(SMS_PUBLI_UNITARY_COST)%'
+            api_key: '%env(SMS_PUBLI_API_KEY)%'
+            version: "3.0"
+            timeout: 60.0
+            countryCode: '34'
+            confirmationRouteName: 'api_sending_smspubli_confirmation'
+            domainUrl: '%env(SMS_PUBLI_DOMAIN_URL)%'

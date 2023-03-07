@@ -20,12 +20,20 @@ use Psr\Log\LoggerInterface;
  */
 class SendingController extends AbstractController
 {
+    private SmsServiceApi $smsapi;
+    private EntityManagerInterface $em;
+
+    public function __construct(SmsServiceApi $smsapi, EntityManagerInterface $em) {
+        $this->smsapi = $smsapi;
+        $this->em = $em;
+    }
+
     /**
      * @Route("/sending/send", name="sending_send")
      */
-    public function sendingSendAction(Request $request, SmsServiceApi $smsapi, LoggerInterface $logger, EntityManagerInterface $em)
+    public function sendingSendAction(Request $request, LoggerInterface $logger)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $sendingDTO = new SendingDTO();
         $form = $this->createForm(SendingType::class, $sendingDTO);
 
@@ -58,7 +66,7 @@ class SendingController extends AbstractController
                 ]);
             }
             try {
-                $credit = $smsapi->getCredit();
+                $credit = $this->smsapi->getCredit();
             } catch (\Exception $e) {
                 $this->addFlash('error', 'An error has ocurred: ' . $e->getMessage());
 
@@ -99,10 +107,9 @@ class SendingController extends AbstractController
                     'credits' => $credit,
                 ]);
             }
-
-            $audit = Audit::createAudit($telephones, '', '', '', $user, $data->getTelephone());
+            $audit = Audit::createAudit($telephones, '', '', '', $user, $data->getMessage());
             try {
-                $response = $smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate());
+                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate(), $audit->getDeliveryId());
                 if (null !== $response) {
                     $audit->setMessage($response['message']);
                     $audit->setResponseCode($response['responseCode']);
@@ -113,27 +120,27 @@ class SendingController extends AbstractController
                     $this->addFlash('warning', 'The API has not responded');
                     $logger->info('API Response: The API has not responded');
                 }
-                $em->persist($audit);
-                $em->flush();
+                $this->em->persist($audit);
+                $this->em->flush();
                 $form = $this->createForm(SendingType::class, new SendingDTO(), []);
 
                 return $this->render('sending/list.html.twig', [
                     'form' => $form->createView(),
                     'contacts' => [],
                     'messages_sent' => count($telephones),
-                    'credits' => $smsapi->getCredit(),
+                    'credits' => $this->smsapi->getCredit(),
                 ]);
             } catch (\Exception $e) {
                 $this->addFlash('error', 'There was an error processing the request: %error_message%');
                 $logger->error('There was an error processing the request: ' . $e->getMessage());
-                $em->persist($audit);
-                $em->flush();
+                // $this->em->persist($audit);
+                // $this->em->flush();
 
                 return $this->render('sending/list.html.twig', [
                     'form' => $form->createView(),
                     'contacts' => [],
                     'error_message' => $e->getMessage(),
-                    'credits' => $smsapi->getCredit(),
+                    'credits' => $this->smsapi->getCredit(),
                 ]);
             }
         }
@@ -144,7 +151,7 @@ class SendingController extends AbstractController
     /**
      * @Route("/sending", name="sending_search")
      */
-    public function sendSearchAction(Request $request, SmsServiceApi $smsapi, ContactRepository $repo)
+    public function sendSearchAction(Request $request, ContactRepository $repo)
     {
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
@@ -161,13 +168,13 @@ class SendingController extends AbstractController
             return $this->render('sending/list.html.twig', [
                 'form' => $form->createView(),
                 'contacts' => $contacts,
-                'credits' => $smsapi->getCredit(),
+                'credits' => $this->smsapi->getCredit(),
             ]);
         }
 
         return $this->render('sending/list.html.twig', [
             'form' => $form->createView(),
-            'credits' => $smsapi->getCredit(),
+            'credits' => $this->smsapi->getCredit(),
         ]);
     }
 
