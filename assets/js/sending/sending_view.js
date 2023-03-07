@@ -1,13 +1,14 @@
 import '../../css/sending/sending_view.css';
 
 import $ from 'jquery';
-import 'tableexport.jquery.plugin/tableExport.min';
+
 import 'bootstrap-table';
+import 'tableexport.jquery.plugin/tableExport.min';
 import 'bootstrap-table/dist/extensions/export/bootstrap-table-export'
-//import 'bootstrap-table/dist/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row'
-//import 'bootstrap-table/dist/extensions/select2-filter/bootstrap-table-select2-filter'
 import 'bootstrap-table/dist/locale/bootstrap-table-es-ES';
 import 'bootstrap-table/dist/locale/bootstrap-table-eu-EU';
+//import 'bootstrap-table/dist/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row'
+//import 'bootstrap-table/dist/extensions/select2-filter/bootstrap-table-select2-filter'
 import 'jquery-ui';
 import 'bootstrap-datepicker';
 import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.es';

@@ -1,7 +1,7 @@
-@import '~bootstrap-table/dist/bootstrap-table';
-@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker';
-@import '~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker';
-@import '../components/select2';
+@import '~bootstrap-table/dist/bootstrap-table.css';
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+@import '~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css';
+@import '../components/select2.css';
 
 #swal2-content {
 	height: 400px;

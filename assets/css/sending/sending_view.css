@@ -1,6 +1,6 @@
-@import '~bootstrap-table/dist/bootstrap-table';
+@import '~bootstrap-table/dist/bootstrap-table.css';
 /*@import '~bootstrap-table/dist/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row';*/
-@import '../components/devbridge-autocomplete';
-@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker';
-@import '~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker';
-@import '../components/select2';
+@import '../components/devbridge-autocomplete.css';
+@import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
+@import '~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css';
+@import '../components/select2.css';
