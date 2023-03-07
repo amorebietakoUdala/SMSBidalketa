@@ -2360,12 +2360,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-table@npm:^1.14.2":
-  version: 1.19.1
-  resolution: "bootstrap-table@npm:1.19.1"
+"bootstrap-table@npm:^1.20.2":
+  version: 1.21.3
+  resolution: "bootstrap-table@npm:1.21.3"
   peerDependencies:
-    jquery: 1.9.1 - 3
-  checksum: 49f6eb386fca0a9bc743e463195f1d9e29f8e64fe2f6c1cf4e177272314b509f6dd6ab5e6cff782334729b99b9b07e599b4d252835c8b796478cc05a2c4b01d4
+    jquery: 3
+  checksum: 0e528fa057f8feda53acd80e2228e9316a93e35edfe244ad23f9c8589775476522782fc017917a3a156171323389b2fac0526395f316dcb815fad242dab3d7f6
   languageName: node
   linkType: hard
 
@@ -4077,7 +4077,7 @@ __metadata:
 
 "fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
-  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=18f3a7"
   dependencies:
     node-gyp: latest
   conditions: os=darwin
@@ -6675,14 +6675,14 @@ __metadata:
 
 "resolve@patch:resolve@1.1.7#~builtin<compat/resolve>":
   version: 1.1.7
-  resolution: "resolve@patch:resolve@npm%3A1.1.7#~builtin<compat/resolve>::version=1.1.7&hash=3bafbf"
+  resolution: "resolve@patch:resolve@npm%3A1.1.7#~builtin<compat/resolve>::version=1.1.7&hash=07638b"
   checksum: e9dbca78600ae56835c43a09f1276876c883e4b4bbd43e2683fa140671519d2bdebeb1c1576ca87c8c508ae2987b3ec481645ac5d3054b0f23254cfc1ce49942
   languageName: node
   linkType: hard
 
 "resolve@patch:resolve@^1.1.5#~builtin<compat/resolve>, resolve@patch:resolve@^1.14.2#~builtin<compat/resolve>, resolve@patch:resolve@^1.9.0#~builtin<compat/resolve>":
   version: 1.22.0
-  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=c3c19d"
+  resolution: "resolve@patch:resolve@npm%3A1.22.0#~builtin<compat/resolve>::version=1.22.0&hash=07638b"
   dependencies:
     is-core-module: ^2.8.1
     path-parse: ^1.0.7
@@ -6774,7 +6774,7 @@ __metadata:
     autoprefixer: ^9.5.1
     bootstrap: ^4.3.1
     bootstrap-datepicker: ^1.9.0
-    bootstrap-table: ^1.14.2
+    bootstrap-table: ^1.20.2
     core-js: ^3.1.2
     css-what: ^5.0.1
     devbridge-autocomplete: ^1.4.10

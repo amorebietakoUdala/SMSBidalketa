@@ -15,7 +15,7 @@
     "acorn": "^7.1.1",
     "bootstrap": "^4.3.1",
     "bootstrap-datepicker": "^1.9.0",
-    "bootstrap-table": "^1.14.2",
+    "bootstrap-table": "^1.20.2",
     "css-what": "^5.0.1",
     "devbridge-autocomplete": "^1.4.10",
     "elliptic": "^6.5.4",
