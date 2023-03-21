@@ -79,13 +79,6 @@ class AcumbamailSmsHistoryCommand extends Command
         if (null != $input->getArgument('end_date')) {
             $end_date = new \DateTime($input->getArgument('end_date'));
         }
-        $found = false;
-        /* @var $lastHistory History */
-        $lastHistory = $this->em->getRepository(History::class)->findOneBy(
-            ['provider' => $this->provider], ['providerId' => 'desc'], 1);
-        if (null === $lastHistory) {
-            $lastHistory = null;
-        }
         try {
             $api_histories = $this->smsApi->getHistory($start_date, $end_date);
             if (count($api_histories) > 0) {
@@ -95,11 +88,7 @@ class AcumbamailSmsHistoryCommand extends Command
 
                 return 0;
             }
-            if (null === $lastHistory) {
-                $lastId = 0;
-            } else {
-                $lastId = $lastHistory->getProviderId();
-            }
+            $lastId = $this->em->getRepository(History::class)->getLastProviderIdForProvider($this->provider);
             if ($firstResult['sms_id'] === $lastId) {
                 return 0;
             }

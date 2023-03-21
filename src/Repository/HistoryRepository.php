@@ -14,6 +14,18 @@ class HistoryRepository extends ServiceEntityRepository
         parent::__construct($registry, History::class);
     }
 
+    public function getLastProviderIdForProvider(string $provider) {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT MAX(CAST(providerId as unsigned)) FROM history where provider='$provider' order by CAST(providerId as unsigned) desc";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchFirstColumn();
+        if ($result !== null) {
+            return $result[0];
+        }
+        return 0;
+    }
+
     public function findByDates(array $criteria = null, array $order = null, $limit = null)
     {
         $qb = $this->createQueryBuilder('h');
