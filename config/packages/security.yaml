@@ -1,7 +1,6 @@
 security:
     role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_ADMIN:       ROLE_SMSBIDALKETA
 
     # https://symfony.com/doc/current/security/authenticator_manager.html
     enable_authenticator_manager: true
@@ -56,4 +55,4 @@ security:
          - { path: ^/login$, roles: PUBLIC_ACCESS }
          - { path: /api/, roles: PUBLIC_ACCESS }
          - { path: ^/build/, roles: PUBLIC_ACCESS }
-         - { path: ^/, roles: ROLE_USER }
+         - { path: ^/, roles: ROLE_SMSBIDALKETA }

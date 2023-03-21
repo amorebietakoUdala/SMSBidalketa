@@ -1,7 +1,7 @@
 <header class="d-flex mb-2 justify-content-between">
     <div><img class="logo" alt="Udaletxearen logoa" src="{{ asset('build/images/logo.jpg') }}"></div>
     <div class="ml-auto mr-auto"><h1>{{ "messages.appTitle" | trans }}</h1></div>
-	{% if is_granted('ROLE_USER') %}
+	{% if is_granted('ROLE_SMSBIDALKETA') %}
 	<div id="span-erabiltzailea" class="ml-auto mr-2">
 	    <div class="dropdown">
 		<a class="dropdown-toggle" id="perfil_menua" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

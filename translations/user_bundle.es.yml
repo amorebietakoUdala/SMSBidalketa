@@ -1,0 +1,5 @@
+# Roles
+ROLE_ADMIN: "Administrador"
+ROLE_SMSBIDALKETA: "Usuario"
+
+security.login.remember_me: "Recordarme"

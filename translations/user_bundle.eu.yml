@@ -1,0 +1,5 @@
+# Roles
+ROLE_ADMIN: "Administratzailea"
+ROLE_SMSBIDALKETA: "Erabiltzailea"
+
+security.login.remember_me: "Oroitu"
