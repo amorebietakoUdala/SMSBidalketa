@@ -7,6 +7,7 @@ use App\Entity\Contact;
 use App\Entity\History;
 use App\Entity\Label;
 use App\Repository\AuditRepository;
+use App\Repository\HistoryRepository;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -25,12 +26,14 @@ class RestApiController extends AbstractController
 
     private LoggerInterface $logger;
     private AuditRepository $auditRepo;
+    private HistoryRepository $historyRepo;
     private EntityManagerInterface $em;
 
-    public function __construct(LoggerInterface $logger, AuditRepository $auditRepo, EntityManagerInterface $em)
+    public function __construct(LoggerInterface $logger, AuditRepository $auditRepo, HistoryRepository $historyRepo, EntityManagerInterface $em)
     {
         $this->logger = $logger;
         $this->auditRepo = $auditRepo;
+        $this->historyRepo = $historyRepo;
         $this->em = $em;
     }
 
@@ -85,25 +88,31 @@ class RestApiController extends AbstractController
     public function sendingSmsPubliConfirmation(Request $request)
     {
         # Confirmation request example
+        // Single
         //$json ='[{"sms_id":"35d6b03f92d542c789c7231917208ca7","from":"AMOREBIETA","to":"34655708598","custom":"1678104508344","sms_date":"2023-03-06 13:08:32","status":"DELIVRD","dlr_date":"2023-03-06 13:08:32"}]';
+        // Multiple
+        // $json = '[{"sms_id":"033795fe33d140e9b342c1ff113f73af","from":"AMOREBIETA","to":"34676089124","custom":"1684151115465","sms_date":"2023-05-15 13:45:21","status":"DELIVRD","dlr_date":"2023-05-15 13:45:21"},{"sms_id":"73cacad5179245f3a397b4ad019a783f","from":"AMOREBIETA","to":"34660805705","custom":"1684151115465","sms_date":"2023-05-15 13:45:21","status":"DELIVRD","dlr_date":"2023-05-15 13:45:21"},{"sms_id":"f143c9b35c6a41fd9ca4f4d631a8cc65","from":"AMOREBIETA","to":"34644654914","custom":"1684151115465","sms_date":"2023-05-15 13:45:21","status":"DELIVRD","dlr_date":"2023-05-15 13:45:21"}]';
         $json = $request->getContent();
         $this->logger->debug('Confirmation:'. $json);
         if ($json !== null && !empty($json)) {
             $confirmations = json_decode($json, true);
             $id = null;
             foreach ($confirmations as $key =>$value) {
-                if ($id !== $value['custom'] ) {
+                if ( $id !== $value['custom'] ) {
                     $id = $value['custom'];
                     /** @var Audit|null $audit */
                     $audit = $this->auditRepo->findOneBy([
                         'deliveryId' => $id
                     ]);
-                    if ($audit !== null) {
-                        $text = $audit->getMessageContent();
-                        $value['text'] = $text;
-                    }
                 }
-                $history = new History();
+                if ($audit !== null) {
+                    $text = $audit->getMessageContent();
+                    $value['text'] = $text;
+                }
+                $history = $this->historyRepo->findOneBy(['providerId' => $value['sms_id']]);
+                if ($history === null ) {
+                    $history = new History();
+                }
                 $history->setProvider('Smspubli');
                 $history->loadFromArray($value, 'Smspubli');
                 $this->em->persist($history);
@@ -113,7 +122,6 @@ class RestApiController extends AbstractController
         }
         $this->logger->debug('Confirmation: Empty');
         return $this->json('', Response::HTTP_NO_CONTENT);
-        
     }
 
 }
