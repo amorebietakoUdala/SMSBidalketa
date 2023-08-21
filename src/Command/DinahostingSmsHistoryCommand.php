@@ -69,13 +69,16 @@ class DinahostingSmsHistoryCommand extends Command
         }
         try {
             $api_histories = $this->smsApi->getHistory($start, $end);
-            $firstResult = $api_histories['data'][0];
+            $firstResult = null;
+            if ( isset($api_histories['data'][0])) {
+                $firstResult = $api_histories['data'][0];
+            }
             if (null === $lastHistory) {
                 $lastId = 0;
             } else {
                 $lastId = $lastHistory->getProviderId();
             }
-            if ($firstResult['id'] === $lastId) {
+            if ($firstResult !== null && $firstResult['id'] === $lastId) {
                 return 0;
             }
             foreach ($api_histories['data'] as $record) {
