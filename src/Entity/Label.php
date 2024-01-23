@@ -2,42 +2,39 @@
 
 namespace App\Entity;
 
+use App\Repository\LabelRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation as SFSerializer;
 
 /**
  * Label.
- *
- * @ORM\Table(name="label")
- * @ORM\Entity(repositoryClass="App\Repository\LabelRepository")
  */
-class Label
+#[ORM\Table(name: 'label')]
+#[ORM\Entity(repositoryClass: LabelRepository::class)]
+class Label implements \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @SFSerializer\Groups({"show"})
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[SFSerializer\Groups(['show'])]
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
-     * @SFSerializer\Groups({"show"})
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255, unique: true)]
+    #[SFSerializer\Groups(['show'])]
     private $name;
 
     /**
      * Labels for the contacts.
-     *
-     * @ORM\ManyToMany(targetEntity="Contact", mappedBy="labels")
-     * @SFSerializer\Groups({"none"})
      */
+    #[ORM\ManyToMany(targetEntity: 'Contact', mappedBy: 'labels')]
+    #[SFSerializer\Groups(['none'])]
     private $contacts;
 
     public function __construct()
@@ -126,7 +123,7 @@ class Label
         $contact->removeLabel($this);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }

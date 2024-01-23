@@ -2,66 +2,60 @@
 
 namespace App\Entity;
 
+use App\Repository\ContactRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Contact.
- *
- * @ORM\Table(name="contact")
- * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  */
-class Contact
+#[ORM\Table(name: 'contact')]
+#[ORM\Entity(repositoryClass: ContactRepository::class)]
+class Contact implements \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="telephone", type="string", length=13, unique=true, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^(71|72|73|74)\d{7}+$|^6\d{8}+$/",match="true",message="It's not a valid mobile phone")
      */
+    #[ORM\Column(name: 'telephone', type: 'string', length: 13, unique: true, nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Regex(pattern: '/^(71|72|73|74)\d{7}+$|^6\d{8}+$/', match: 'true', message: "It's not a valid mobile phone")]
     private $telephone;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
+    #[ORM\Column(name: 'name', type: 'string', length: 255, nullable: true)]
     private $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="surname1", type="string", length=255, nullable=true)
      */
+    #[ORM\Column(name: 'surname1', type: 'string', length: 255, nullable: true)]
     private $surname1;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="surname2", type="string", length=255, nullable=true)
      */
+    #[ORM\Column(name: 'surname2', type: 'string', length: 255, nullable: true)]
     private $surname2;
 
     /**
      * Labels for the contacts.
-     *
-     * @ORM\ManyToMany(targetEntity="Label", inversedBy="contacts", cascade={"persist"})
-     * @ORM\JoinTable(name="labels_contacts")
-     * @ORM\OrderBy({"name" = "ASC"})
-     *      )
      */
-    private $labels;
+    #[ORM\JoinTable(name: 'labels_contacts')]
+    #[ORM\ManyToMany(targetEntity: 'Label', inversedBy: 'contacts', cascade: ['persist'])]
+    #[ORM\OrderBy(['name' => 'ASC'])]
+    private Collection $labels;
 
     public function __construct()
     {
@@ -191,7 +185,7 @@ class Contact
     /**
      * Get labels.
      *
-     * @return ArrayCollection|Labels[]
+     * @return ArrayCollection|Label[]
      */
     public function getLabels()
     {
@@ -223,9 +217,9 @@ class Contact
         return $this;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->getFullName();
+        return (string) $this->getFullName();
     }
 
     public function getFullName()

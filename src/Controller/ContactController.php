@@ -17,24 +17,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/{_locale}")
- */
+#[Route(path: '/{_locale}')]
 class ContactController extends AbstractController
 {
-    private $em;
-    private $labelRepo;
-
-    public function __construct(EntityManagerInterface $em, LabelRepository $labelRepo)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly LabelRepository $labelRepo)
     {
-        $this->em = $em;
-        $this->labelRepo = $labelRepo;
     }
 
-    /**
-     * @Route("/contacts/import", name="contact_import")
-     */
-    public function importAction(Request $request, ContactRepository $repo)
+    #[Route(path: '/contacts/import', name: 'contact_import')]
+    public function import(Request $request, ContactRepository $repo)
     {
         $form = $this->createForm(ContactImportType::class, null);
         $form->handleRequest($request);
@@ -66,7 +57,7 @@ class ContactController extends AbstractController
                         /* Telephone not found */
                         $contact = new Contact();
                         $contactDTO->fill($contact);
-                        if (!preg_match("/^(71|72|73|74)\d{7}+$|^6\d{8}+$/", $contactDTO->getTelephone())) {
+                        if (!preg_match("/^(71|72|73|74)\d{7}+$|^6\d{8}+$/", (string) $contactDTO->getTelephone())) {
                             $invalid_contacts[] = $contact;
                             continue;
                         }
@@ -112,10 +103,8 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contacts", name="contact_list")
-     */
-    public function listAction(Request $request, ContactRepository $repo)
+    #[Route(path: '/contacts', name: 'contact_list')]
+    public function list(Request $request, ContactRepository $repo)
     {
         $contacts = [];
         $form = $this->createForm(\App\Form\ContactSearchType::class, new ContactDTO());
@@ -134,10 +123,8 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact/new", name="contact_new")
-     */
-    public function newAction(Request $request, ContactRepository $repo)
+    #[Route(path: '/contact/new', name: 'contact_new')]
+    public function new(Request $request, ContactRepository $repo)
     {
         $form = $this->createForm(ContactType::class, new ContactDTO());
         $form->handleRequest($request);
@@ -170,10 +157,8 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact/{contact}/edit", name="contact_edit")
-     */
-    public function editAction(Request $request, Contact $contact, ContactRepository $repo)
+    #[Route(path: '/contact/{contact}/edit', name: 'contact_edit')]
+    public function edit(Request $request, Contact $contact, ContactRepository $repo)
     {
         $contactDTO = new ContactDTO($contact);
 
@@ -211,10 +196,8 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact/{contact}", name="contact_show")
-     */
-    public function showAction(Contact $contact)
+    #[Route(path: '/contact/{contact}', name: 'contact_show')]
+    public function show(Contact $contact)
     {
         $contactDTO = new ContactDTO($contact);
 
@@ -227,10 +210,8 @@ class ContactController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/contact/{contact}/delete", name="contact_delete")
-     */
-    public function deleteAction(Contact $contact)
+    #[Route(path: '/contact/{contact}/delete', name: 'contact_delete')]
+    public function delete(Contact $contact)
     {
         $this->em->remove($contact);
         $this->em->flush();
@@ -290,7 +271,7 @@ class ContactController extends AbstractController
     {
         $date = new DateTime();
         $dateStr = $date->format('Ymdhis');
-        $filename = preg_replace('/\\.[^.\\s]{3,4}$/', '', $file->getClientOriginalName());
+        $filename = preg_replace('/\\.[^.\\s]{3,4}$/', '', (string) $file->getClientOriginalName());
         $directory = $this->getParameter('uploads_directory');
         $extension = $file->guessExtension();
         if (!$extension) {

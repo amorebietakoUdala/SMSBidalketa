@@ -8,10 +8,10 @@ sms_service:
             account: '%env(SMS_ACCOUNT)%'
             sender: 'AMOREBIETA'
         acumbamail:
+            sender: 'AMOREBIETA'
             authToken: '%env(SMS_ACUMBAMAIL_AUTHTOKEN)%'
             version: 1
             timeout: 20.0
-            sender: 'AMOREBIETA'
             countryCode: '34'
         smspubli:
             sender: 'AMOREBIETA'

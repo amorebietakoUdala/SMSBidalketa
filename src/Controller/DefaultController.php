@@ -7,10 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
-    public function homeAction()
+    #[Route(path: '/', name: 'home')]
+    public function home()
     {
         return $this->redirectToRoute('sending_search');
     }

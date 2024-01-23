@@ -12,6 +12,7 @@ use App\Entity\History;
 use AmorebietakoUdala\SMSServiceBundle\Providers\SmsDinaHostingApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -20,23 +21,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author ibilbao
  */
+#[AsCommand('app:sms-history-dinahosting', 'Gets the last History messages from SMS provider API and stores them in the database.')]
 class DinahostingSmsHistoryCommand extends Command
 {
-    protected static $defaultName = 'app:sms-history-dinahosting';
-
-    private $em;
-    private $smsApi;
     private $provider = 'Dinahosting';
 
-    public function __construct(EntityManagerInterface $em, SmsDinaHostingApi $smsApi)
+    public function __construct(private readonly EntityManagerInterface $em, private readonly SmsDinaHostingApi $smsApi)
     {
-        $this->em = $em;
-        $this->smsApi = $smsApi;
-
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             // the short description shown while running "php bin/console list"
@@ -55,7 +50,7 @@ class DinahostingSmsHistoryCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function getHistory(OutputInterface $output)
+    private function getHistory(OutputInterface $output): array
     {
         $histories = [];
         $start = 0;
@@ -63,7 +58,7 @@ class DinahostingSmsHistoryCommand extends Command
         $found = false;
 
         $lastHistory = $this->em->getRepository(History::class)->findOneBy(
-            ['provider' => $this->provider], ['providerId' => 'desc'], 1);
+            ['provider' => $this->provider], ['providerId' => 'desc']);
         if (null === $lastHistory) {
             $lastHistory = null;
         }

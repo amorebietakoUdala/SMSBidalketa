@@ -16,74 +16,80 @@
 {% endblock %}
 
 {% block body %}
-    <main class="container-fluid">
-	<div class="mt-2">
-	{{ include('contact/_searchForm.html.twig',{
+	<main class="container-fluid">
+		<div class="mt-2">
+			{{ include('contact/_searchForm.html.twig',{
 	    'readonly': false,
 			    }) }}
-	</div>
-	<div class="container-fluid">
-	    <table id="taula" class="table bootstrap-table mt-3">
-		<thead>
-		    <tr>
-			<th data-sortable="true">{{"contact.id" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"contact.fullname" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"contact.telephone" | trans | capitalize}}</th>
-			<th data-sortable="true">{{"contact.labels" | trans | capitalize}}</th>
-			<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
-		    </tr>
-		</thead>
-		<tbody>
-		    {% if contacts is defined and contacts|length > 0 %}
-			{% for contact in contacts %}
-			<tr>
-			    <td>{{contact.id}}</td>
-				<td>{{contact.fullname}}</td>
-			    <td>{{contact.telephone}}</td>
-				<td>
-					{% if contact.labels|length > 0  %}
-						<ul class="list-group" id="menu">
-						{% for label in contact.labels %}
-							<li class="list-group-item">{{ label.name }}
-								<i class="fa fa-remove pull-right js-label-remove" 
-								   data-url="{{ path ("api_remove_contact_label",
-														{'contact': contact.id , 
-														'label': label.id })
-
-								   }}"
-									data-confirmation="{{ "messages.confirmacion" | trans  }}"
-									data-message="{{ "contact.label.remove.confirmation" | trans }}"
-									data-confirm = "{{ "messages.si" | trans | capitalize }}"
-									data-cancel = "{{ "messages.no" | trans | capitalize }}"
-								   ></i>
-							</li>
+		</div>
+		<div class="container-fluid">
+			<table id="taula" class="table bootstrap-table mt-3">
+				<thead>
+					<tr>
+						<th data-sortable="true">{{"contact.id" | trans | capitalize}}</th>
+						<th data-sortable="true">{{"contact.fullname" | trans | capitalize}}</th>
+						<th data-sortable="true">{{"contact.telephone" | trans | capitalize}}</th>
+						{# <th data-sortable="true">{{"contact.labels" | trans | capitalize}}</th> #}
+						<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% if contacts is defined and contacts|length > 0 %}
+						{% for contact in contacts %}
+							<tr>
+								<td>{{contact.id}}</td>
+								<td>{{contact.fullname}}</td>
+								<td>{{contact.telephone}}</td>
+								{# <td>
+													{% if contact.labels|length > 0  %}
+														<ul class="list-group" id="menu">
+														{% for label in contact.labels %}
+															<li class="list-group-item">{{ label.name }}
+																<i class="fa fa-remove pull-right js-label-remove" 
+																   data-url="{{ path ("api_remove_contact_label",
+																						{'contact': contact.id , 
+																						'label': label.id })
+								
+																   }}"
+																	data-confirmation="{{ "messages.confirmacion" | trans  }}"
+																	data-message="{{ "contact.label.remove.confirmation" | trans }}"
+																	data-confirm = "{{ "messages.si" | trans | capitalize }}"
+																	data-cancel = "{{ "messages.no" | trans | capitalize }}"
+																   ></i>
+															</li>
+														{% endfor %}
+														</ul>
+													{% endif %}
+												</td> #}
+								<td>
+									<a href="{{ path ("contact_show",{'contact': contact.id })}}">
+										<i class="fa fa-eye"></i>
+									</a>
+									&nbsp;<a href="{{ path ("contact_edit",{'contact': contact.id })}}">
+										<i class="fa fa-edit"></i>
+									</a>
+									&nbsp;<a class="js-delete" href="#" data-url="{{ path ("contact_delete",{"contact" : contact.id}) }}" data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}" data-message="{{ "contact.delete.confirmation" | trans | capitalize }}" data-confirm="{{ "messages.si" | trans | capitalize }}" data-cancel="{{ "messages.no" | trans | capitalize }}">
+										<i class="fa fa-trash"></i>
+									</a>
+								</td>
+							</tr>
 						{% endfor %}
-						</ul>
+					{% else %}
+						<tr>
+							<td colspan="6">{{"messages.results0" | trans }}</td>
+						</tr>
 					{% endif %}
-				</td>
-				<td><a href="{{ path ("contact_show",{'contact': contact.id })}}"><i class="fa fa-eye"></i></a>
-				&nbsp;<a href="{{ path ("contact_edit",{'contact': contact.id })}}"><i class="fa fa-edit"></i></a>
-				&nbsp;<a class="js-delete" 
-						 href="#" 
-						 data-url="{{ path ("contact_delete",{"contact" : contact.id}) }}" 
-						 data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}"
-						 data-message="{{ "contact.delete.confirmation" | trans | capitalize }}"
-						 data-confirm = "{{ "messages.si" | trans | capitalize }}"
-						 data-cancel = "{{ "messages.no" | trans | capitalize }}"
-					>
-					<i class="fa fa-trash"></i></a>
-			    </td>
-			</tr>
-			{% endfor %}
-		    {% else %}
-			<tr><td colspan="6">{{"messages.results0" | trans }}</td></tr>
-		    {% endif %}
-		</tbody>
-	    </table>
-	    <span class="pull-right"><a href="{{ path ('contact_new') }}" class="btn btn-primary btn-rounded fixed-bottom-right"><i class="fa fa-plus" title='{{ "btn.new" | trans | capitalize }}'></i></a></span>
-	</div>
-    </main>
+				</tbody>
+			</table>
+			<span class="pull-right">
+				<a href="{{ path ('contact_new') }}" class="btn btn-primary btn-rounded fixed-bottom-right">
+					<i class="fa fa-plus" title='{{ "btn.new" | trans | capitalize }}'></i>
+				</a>
+			</span>
+		</div>
+	</main>
 {% endblock %}
+
 
 {% block stylesheets %}
     {{ parent() }}

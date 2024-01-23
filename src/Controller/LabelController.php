@@ -11,15 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/{_locale}", requirements={"_locale"="es|eu|en"})
- */
+#[Route(path: '/{_locale}', requirements: ['_locale' => 'es|eu|en'])]
 class LabelController extends AbstractController
 {
-    /**
-     * @Route("/labels", name="label_list")
-     */
-    public function listAction(LabelRepository $repo)
+    #[Route(path: '/labels', name: 'label_list')]
+    public function list(LabelRepository $repo)
     {
         $labels = $repo->findAll();
 
@@ -28,10 +24,8 @@ class LabelController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/label/new", name="label_new")
-     */
-    public function newAction(Request $request, LabelRepository $repo, EntityManagerInterface $em)
+    #[Route(path: '/label/new', name: 'label_new')]
+    public function new(Request $request, LabelRepository $repo, EntityManagerInterface $em)
     {
         $form = $this->createForm(LabelType::class, new Label());
         $form->handleRequest($request);
@@ -57,10 +51,8 @@ class LabelController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/label/{label}", name="label_show")
-     */
-    public function showAction(Label $label)
+    #[Route(path: '/label/{label}', name: 'label_show')]
+    public function show(Label $label)
     {
         $form = $this->createForm(LabelType::class, $label, [
         ]);
@@ -72,10 +64,8 @@ class LabelController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/label/{label}/edit", name="label_edit")
-     */
-    public function editAction(Request $request, Label $label, EntityManagerInterface $em)
+    #[Route(path: '/label/{label}/edit', name: 'label_edit')]
+    public function edit(Request $request, Label $label, EntityManagerInterface $em)
     {
         $form = $this->createForm(LabelType::class, $label);
 
@@ -96,10 +86,8 @@ class LabelController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/label/{label}/delete", name="label_delete")
-     */
-    public function deleteAction(Label $label, EntityManagerInterface $em)
+    #[Route(path: '/label/{label}/delete', name: 'label_delete')]
+    public function delete(Label $label, EntityManagerInterface $em)
     {
         $em->remove($label);
         $em->flush();

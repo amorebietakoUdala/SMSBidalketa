@@ -36,7 +36,7 @@ class AuditRepository extends ServiceEntityRepository
         if (null === $order) {
             $qb->orderBy('a.timestamp', 'DESC');
         } else {
-            $qb->orderBy(array_key_first($order), array_value[array_key_first($order)]);
+            $qb->orderBy(array_key_first($order), \ARRAY_VALUE[array_key_first($order)]);
         }
         $result = $qb->getQuery()->setMaxResults($limit)->getResult();
 
@@ -71,9 +71,7 @@ class AuditRepository extends ServiceEntityRepository
     {
         $filteredCriteria = array_filter(
             $criteria,
-            function ($key) use ($filteredFields) {
-                return in_array($key, $filteredFields);
-            },
+            fn($key) => in_array($key, $filteredFields),
             ARRAY_FILTER_USE_KEY
         );
 
