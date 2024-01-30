@@ -15,23 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 
-/**
- * @Route("/{_locale}")
- */
+#[Route(path: '/{_locale}')]
 class SendingController extends AbstractController
 {
-    private SmsServiceApi $smsapi;
-    private EntityManagerInterface $em;
-
-    public function __construct(SmsServiceApi $smsapi, EntityManagerInterface $em) {
-        $this->smsapi = $smsapi;
-        $this->em = $em;
+    public function __construct(private readonly SmsServiceApi $smsapi, private readonly EntityManagerInterface $em)
+    {
     }
 
-    /**
-     * @Route("/sending/send", name="sending_send")
-     */
-    public function sendingSendAction(Request $request, LoggerInterface $logger)
+    #[Route(path: '/sending/send', name: 'sending_send')]
+    public function sendingSend(Request $request, LoggerInterface $logger)
     {
         $user = $this->getUser();
         $sendingDTO = new SendingDTO();
@@ -39,9 +31,9 @@ class SendingController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var $data SendingDTO */
+            /** @var SendingDTO $data */
             $data = $form->getData();
-            $selected = json_decode($data->getSelected());
+            $selected = json_decode((string) $data->getSelected());
             $idsAndTelephones = $this->__extractIdsAndTelephones($selected);
             $telephones = $idsAndTelephones['telephones'];
             if (!empty($data->getTelephone())) {
@@ -98,7 +90,7 @@ class SendingController extends AbstractController
                 ]);
             }
 
-            if (strlen($data->getMessage()) > 160) {
+            if (strlen((string) $data->getMessage()) > 160) {
                 $this->addFlash('error', 'Message too long');
 
                 return $this->render('sending/list.html.twig', [
@@ -148,10 +140,8 @@ class SendingController extends AbstractController
         return $this->redirectToRoute('sending_search');
     }
 
-    /**
-     * @Route("/sending", name="sending_search")
-     */
-    public function sendSearchAction(Request $request, ContactRepository $repo)
+    #[Route(path: '/sending', name: 'sending_search')]
+    public function sendSearch(Request $request, ContactRepository $repo)
     {
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
@@ -229,9 +219,9 @@ class SendingController extends AbstractController
         $mUcs4 = 0;     // cached Unicode character
         $mBytes = 1;     // cached expected number of octets in the current sequence
 
-        $out = array();
+        $out = [];
 
-        $len = strlen($str);
+        $len = strlen((string) $str);
         for ($i = 0; $i < $len; ++$i) {
             $in = ord($str[$i]);
             if (0 == $mState) {

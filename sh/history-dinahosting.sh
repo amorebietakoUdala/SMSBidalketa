@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /var/www/SF5/SMSBidalketa-S4/
+cd /var/www/SF6/SMSBidalketa/
 php bin/console app:sms-history-dinahosting

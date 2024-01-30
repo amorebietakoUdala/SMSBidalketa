@@ -10,15 +10,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/{_locale}")
- */
+#[Route(path: '/{_locale}')]
 class HistoryController extends AbstractController
 {
-    /**
-     * @Route("/history", name="history_list")
-     */
-    public function listAction(Request $request, HistoryRepository $repo)
+    #[Route(path: '/history', name: 'history_list')]
+    public function list(Request $request, HistoryRepository $repo)
     {
         $maxLimit = $this->getParameter('historyMaxLimit');
 

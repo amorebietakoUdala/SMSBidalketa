@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class SendingType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('telephone', TextType::class, [
@@ -37,13 +37,12 @@ class SendingType extends AbstractType
             ->add('date', DateTimeType::class, [
                     'widget' => 'single_text',
                     'label' => 'sending.date',
-//                    ],
                     'html5' => true,
             ])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => SendingDTO::class,

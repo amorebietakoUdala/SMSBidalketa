@@ -1,7 +1,5 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-     
-sms_service:
-    resource: "@SMSServiceBundle/Resources/config/routing.yml"
-    prefix:   /smsBundle
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute

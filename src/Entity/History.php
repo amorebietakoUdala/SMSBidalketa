@@ -2,81 +2,69 @@
 
 namespace App\Entity;
 
+use App\Repository\HistoryRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="history",indexes={@ORM\Index(name="providerId_idx", columns={"providerId"})})
- * @ORM\Entity(repositoryClass="App\Repository\HistoryRepository")
- */
+#[ORM\Table(name: 'history')]
+#[ORM\Index(name: 'providerId_idx', columns: ['providerId'])]
+#[ORM\Entity(repositoryClass: HistoryRepository::class)]
 class History
 {
 
-    const STATUS_SENT="SENT";
+    final public const STATUS_SENT="SENT";
     
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(name="id", type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="provider", type="string", length=20, nullable=true)
      */
+    #[ORM\Column(name: 'provider', type: 'string', length: 20, nullable: true)]
     private $provider;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="providerId", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'providerId', type: 'string', length: 50, nullable: true)]
     private $providerId;
 
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
      */
+    #[ORM\Column(name: 'date', type: 'datetime')]
     private $date;
     /**
      * @var string
-     *
-     * @ORM\Column(name="senderAccount", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'senderAccount', type: 'string', length: 50, nullable: true)]
     private $senderAccount;
     /**
      * @var string
-     *
-     * @ORM\Column(name="rctp_name_number", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'rctp_name_number', type: 'string', length: 50, nullable: true)]
     private $rctpNameNumber;
     /**
      * @var string
-     *
-     * @ORM\Column(name="text", type="string", length=400, nullable=true)
      */
+    #[ORM\Column(name: 'text', type: 'string', length: 400, nullable: true)]
     private $text;
     /**
      * @var string
-     *
-     * @ORM\Column(name="ip", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'ip', type: 'string', length: 50, nullable: true)]
     private $ip;
     /**
      * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'status', type: 'string', length: 50, nullable: true)]
     private $status;
     /**
      * @var string
-     *
-     * @ORM\Column(name="es_unicode", type="string", length=50, nullable=true)
      */
+    #[ORM\Column(name: 'es_unicode', type: 'string', length: 50, nullable: true)]
     private $esUnicode;
 
     public function __construct($history = null, $provider = null)
@@ -260,7 +248,7 @@ class History
         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $array['sms_date']);
         $this->setDate($date);
         $this->setSenderAccount($array['from']);
-        $this->setRctpNameNumber(substr($array['to'],2));
+        $this->setRctpNameNumber(substr((string) $array['to'],2));
         $this->setText($array['text']);
         if ('DELIVRD' === $array['status'] ) {
             $this->setStatus('SENT');

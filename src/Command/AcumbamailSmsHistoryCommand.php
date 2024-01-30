@@ -14,6 +14,7 @@ use App\Repository\HistoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,25 +25,20 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author ibilbao
  */
+#[AsCommand('app:sms-history-acumbamail', 'Gets the last History messages from SMS provider API and stores them in the database. If no argument provided, it will return todays SMS History.')]
 class AcumbamailSmsHistoryCommand extends Command
 {
-    protected static $defaultName = 'app:sms-history-acumbamail';
-
-    private $em;
-    private $smsApi;
     private $provider = 'Acumbamail';
-    private $repo;
 
-    public function __construct(EntityManagerInterface $em, SmsAcumbamailApi $smsApi, HistoryRepository $repo)
+    public function __construct(
+        private readonly EntityManagerInterface $em, 
+        private readonly SmsAcumbamailApi $smsApi, 
+        private readonly HistoryRepository $repo)
     {
-        $this->em = $em;
-        $this->smsApi = $smsApi;
-        $this->repo = $repo;    
-
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             // the short description shown while running "php bin/console list"
@@ -68,7 +64,7 @@ class AcumbamailSmsHistoryCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function getHistory(InputInterface $input, OutputInterface $output)
+    private function getHistory(InputInterface $input, OutputInterface $output): array
     {
         $histories = [];
         $start_date = new \DateTime((new \DateTime())->format('Y-m-d'));

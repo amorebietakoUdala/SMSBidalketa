@@ -12,25 +12,21 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
-/**
- * @Route("/{_locale}")
- */
+#[Route(path: '/{_locale}')]
 class AuditController extends AbstractController
 {
-    /**
-     * @Route("/audit", name="audit_list")
-     */
-    public function listAction(Request $request, AuthorizationCheckerInterface $authChecker, AuditRepository $repo)
+    #[Route(path: '/audit', name: 'audit_list')]
+    public function list(Request $request, AuthorizationCheckerInterface $authChecker, AuditRepository $repo)
     {
         $form = $this->createForm(AuditSearchType::class, new AuditSearchDTO());
         $criteria = [];
         $limit = $this->getParameter('resultLimit');
         if (!$authChecker->isGranted('ROLE_ADMIN')) {
-            $criteria['user'] = $this->get('security.token_storage')->getToken()->getUser();
+            $criteria['user'] = $this->getUser();
         }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var $data AuditSearchDTO */
+            /** @var AuditSearchDTO $data */
             $data = $form->getData();
             $criteria = array_replace($data->toArray(), $criteria);
             $audits = $repo->findByTimestamp($criteria);
@@ -51,7 +47,6 @@ class AuditController extends AbstractController
                 '%maxLimit%' => $limit
             ]));
         }
-
 
         return $this->render('audit/list.html.twig', [
             'audits' => $audits,

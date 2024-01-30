@@ -18,31 +18,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 
-/**
- * @Route("/api")
- */
+#[Route(path: '/api')]
 class RestApiController extends AbstractController
 {
 
-    private LoggerInterface $logger;
-    private AuditRepository $auditRepo;
-    private HistoryRepository $historyRepo;
-    private EntityManagerInterface $em;
-
-    public function __construct(LoggerInterface $logger, AuditRepository $auditRepo, HistoryRepository $historyRepo, EntityManagerInterface $em)
+    public function __construct(private readonly LoggerInterface $logger, private readonly AuditRepository $auditRepo, private readonly HistoryRepository $historyRepo, private readonly EntityManagerInterface $em)
     {
-        $this->logger = $logger;
-        $this->auditRepo = $auditRepo;
-        $this->historyRepo = $historyRepo;
-        $this->em = $em;
     }
 
     /**
      * Retrieves an Labels resource.
-     *
-     * @Route("/labels", name="api_get_labels", options={"expose"=true})
      */
-    public function getLabelsAction(Request $request, LabelRepository $repo)
+    #[Route(path: '/labels', name: 'api_get_labels', options: ['expose' => true])]
+    public function getLabels(Request $request, LabelRepository $repo)
     {
         $query = $request->get('name');
         $labels = $repo->findLabelsThatContain($query);
@@ -55,10 +43,9 @@ class RestApiController extends AbstractController
 
     /**
      * Removes the specified label from a given contact.
-     *
-     * @Route("/contact/{contact}/label/{label}/remove", name="api_remove_contact_label")
      */
-    public function deleteLabelRemoveAction(Contact $contact, Label $label, EntityManagerInterface $em)
+    #[Route(path: '/contact/{contact}/label/{label}/remove', name: 'api_remove_contact_label')]
+    public function deleteLabelRemove(Contact $contact, Label $label, EntityManagerInterface $em)
     {
         $contact->removeLabel($label);
         $em->persist($contact);
@@ -69,10 +56,9 @@ class RestApiController extends AbstractController
 
     /**
      * Returns a list of telephones from the given audit.
-     *
-     * @Route("/audit/{id}/telephones", name="api_get_audit_telephones")
      */
-    public function getAuditTelephonesAction(Audit $audit)
+    #[Route(path: '/audit/{id}/telephones', name: 'api_get_audit_telephones')]
+    public function getAuditTelephones(Audit $audit)
     {
         $telephones = $audit->getTelephones();
         sort($telephones, SORT_STRING);
@@ -82,9 +68,8 @@ class RestApiController extends AbstractController
 
     /**
      * Returns a list of telephones from the given audit.
-     *
-     * @Route("/sending/smspubli/confirmation", name="api_sending_smspubli_confirmation")
      */
+    #[Route(path: '/sending/smspubli/confirmation', name: 'api_sending_smspubli_confirmation')]
     public function sendingSmsPubliConfirmation(Request $request)
     {
         # Confirmation request example

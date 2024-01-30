@@ -2,74 +2,60 @@
 
 namespace App\Entity;
 
+use App\Repository\AuditRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="audit",indexes={
- *     @ORM\Index(name="deliveryId_idx", columns={"deliveryId"})
- * })
- * @ORM\Entity(repositoryClass="App\Repository\AuditRepository")
- */
+#[ORM\Table(name: 'audit')]
+#[ORM\Index(name: 'deliveryId_idx', columns: ['deliveryId'])]
+#[ORM\Entity(repositoryClass: AuditRepository::class)]
 class Audit
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="telephones", type="text")
      */
+    #[ORM\Column(name: 'telephones', type: 'text')]
     private $telephones;
     /**
      * @var DateTime
-     *
-     * @ORM\Column(name="timestamp", type="datetime")
      */
+    #[ORM\Column(name: 'timestamp', type: 'datetime')]
     private $timestamp;
     /**
      * @var string
-     *
-     * @ORM\Column(name="responseCode", type="string")
      */
+    #[ORM\Column(name: 'responseCode', type: 'string')]
     private $responseCode;
     /**
      * @var string
-     *
-     * @ORM\Column(name="message", type="string")
      */
+    #[ORM\Column(name: 'message', type: 'string')]
     private $message;
     /**
      * @var string
-     *
-     * @ORM\Column(name="response", type="text")
      */
+    #[ORM\Column(name: 'response', type: 'text')]
     private $response;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User", cascade={"persist"})
-     */
+    #[ORM\ManyToOne(targetEntity: 'User', cascade: ['persist'])]
     private $user;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="deliveryId", type="bigint")
      */
+    #[ORM\Column(name: 'deliveryId', type: 'bigint')]
     private $deliveryId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="messageContent", type="string", nullable="true")
      */
+    #[ORM\Column(name: 'messageContent', type: 'string', nullable: 'true')]
     private $messageContent;
 
     public function __construct()
