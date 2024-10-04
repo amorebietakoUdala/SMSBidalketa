@@ -5,7 +5,7 @@
     "@babel/preset-env": "^7.12.7",
     "@symfony/webpack-encore": "^4.2.0",
     "acorn": "^7.1.1",
-    "bootstrap": "^4.3.1",
+    "bootstrap": "^5.0.0",
     "bootstrap-datepicker": "^1.9.0",
     "bootstrap-table": "1.21.1",
     "devbridge-autocomplete": "1.4.11",
