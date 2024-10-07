@@ -1,41 +1,46 @@
 {{ form_start(form, {'attr': {'id': 'form',
-							  'class': 'container-fluid form-group',
+							  'class': 'container-fluid',
 						      'novalidate': 'novalidate'
 						} 
 }) }}
-<div class="form-row align-items-center">
+<div class="row align-items-center">
 	<div class="col-lg-2 col-md-2 col-sm-6">
-		<div class="form-group">
+		<div>
 			{{ form_label(form.telephone,'sending.individualTelephone') }}
 			{{ form_widget(form.telephone, { 'attr': { 'id': '', 'class' : 'form-control-sm'} }) }}
 		</div>
 	</div>
 	<div class="col-lg-2 col-md-2 col-sm-6">
-		{{ form_row(form.labels, { 'attr': { 'id': '', 'class' : 'form-control-sm'} }) }}
+		{{ form_label(form.labels) }}
+		{{ form_widget(form.labels, { 'attr': { 'id': '', 'class' : 'form-control-sm'} }) }}
 	</div>
-	<button id="js-btn-search" type="Submit" class="btn btn-primary ml-1" data-url='{{ path ('sending_search') }}'>{{ "btn.searchRecipients" | trans | capitalize }}</button>
+	<div class="col-lg-2 col-md-2 col-sm-6">
+		<button id="js-btn-search" type="Submit" class="btn btn-primary ml-1" data-url='{{ path ('sending_search') }}'>{{ "btn.searchRecipients" | trans | capitalize }}</button>
+	</div>
 </div>
-<div class="form-row align-items-center">
+<div class="row align-items-center">
 	<div class="col-lg-4 col-md-4 col-sm-6">
 		{{ form_row(form.message, { 'attr': { 'id': '', 'class' : 'form-control-sm'} }) }}
 	</div>
 </div>
-<div class="form-row align-items-center">
+<div class="row align-items-center mb-2">
 
 {# Acumbamail provider doesn't support scheduling so we remove the field #}	
 {#	<div class="col-lg-2 col-md-2 col-sm-6">
 		{{ form_row(form.date, { 'attr': { 'id': '', 'class' : 'js-datetimepicker form-control-sm'} }) }}
 	</div>
 #}	
-	<button id="js-btn-send" type="button" class="btn btn-primary ml-1" 
-		data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}"
-		data-message="{{ "send.confirmation" | trans }}"
-		data-confirm = "{{ "messages.si" | trans | capitalize }}"
-		data-cancel = "{{ "messages.no" | trans | capitalize }}"
-		data-error ="{{ "message.error" | trans | capitalize }}"
-		data-no_message ="{{ "No message entered" | trans | capitalize }}"
-		data-no_receivers ="{{ "No receivers found" | trans | capitalize }}"
-		data-url='{{ path ('sending_send') }}'>{{ "btn.send" | trans | capitalize }}</button>
+	<div class="col-lg-2 col-md-2 col-sm-6">
+		<button id="js-btn-send" type="button" class="btn btn-primary ml-1" 
+			data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}"
+			data-message="{{ "send.confirmation" | trans }}"
+			data-confirm = "{{ "messages.si" | trans | capitalize }}"
+			data-cancel = "{{ "messages.no" | trans | capitalize }}"
+			data-error ="{{ "message.error" | trans | capitalize }}"
+			data-no_message ="{{ "No message entered" | trans | capitalize }}"
+			data-no_receivers ="{{ "No receivers found" | trans | capitalize }}"
+			data-url='{{ path ('sending_send') }}'>{{ "btn.send" | trans | capitalize }}</button>
+	</div>
 </div>
 
 	{{ form_widget(form.selected) }}

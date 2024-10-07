@@ -6,16 +6,16 @@ use App\DTO\HistorySearchDTO;
 use App\Entity\History;
 use App\Form\HistorySearchType;
 use App\Repository\HistoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/{_locale}')]
-class HistoryController extends AbstractController
+class HistoryController extends BaseController
 {
     #[Route(path: '/history', name: 'history_list')]
     public function list(Request $request, HistoryRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $maxLimit = $this->getParameter('historyMaxLimit');
 
         $form = $this->createForm(HistorySearchType::class, new HistorySearchDTO());

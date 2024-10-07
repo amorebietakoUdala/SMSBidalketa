@@ -1,9 +1,9 @@
-{{ form_start(form, {'attr': {'class': 'container-fluid form-group',
+{{ form_start(form, {'attr': {'class': 'container-fluid',
 						 'novalidate': 'novalidate'
 						} 
 }) }}
-    <div class="form-row align-items-center mb-1"> 
-		<div class="col-lg-2 col-md-2 col-sm-6">
+   <div class="row align-items-center mb-1"> 
+		<div class="col-lg-1 col-md-2 col-sm-6">
             {{ form_row(form.fromDate, { 'attr': { 
                     'class' : 'form-control-sm', 
                     'data-controller' : 'datetimepicker', 
@@ -12,7 +12,7 @@
 					}
             }) }}
 		</div>
-		<div class="col-lg-2 col-md-2 col-sm-6">
+		<div class="col-lg-1 col-md-2 col-sm-6">
             {{ form_row(form.toDate, { 'attr': { 
                     'class' : 'form-control-sm', 
                     'data-controller' : 'datetimepicker', 
@@ -28,16 +28,18 @@
 			{{ form_row(form.text, { 'attr': { 'id': '', 'class' : 'form-control-sm' } }) }}
 		</div>
 		{% if is_granted('ROLE_ADMIN') %}
-			<div class="col-lg-2 col-md-2 col-sm-6">
-				{{ form_row(form.provider, { 'attr': { 'id': '', 'class' : 'form-control-sm' } }) }}
+			<div class="col-lg-1 col-md-2 col-sm-6">
+				{{ form_row(form.provider, { 'attr': { 'id': '', 'class' : 'form-select-sm' } }) }}
 			</div>
 		{% endif %}
 		<div class="col-lg-2 col-md-2 col-sm-6">
-			{{ form_row(form.status, { 'attr': { 'id': '', 'class' : 'form-control-sm' } }) }}
+			{{ form_row(form.status, { 'attr': { 'id': '', 'class' : 'form-select-sm' } }) }}
 		</div>
-		<button type="Submit" class="btn btn-primary ml-1">{{ "btn.search" | trans | capitalize }}</button>
-		{% set url = path('history_list') %}
-		<button type="Button" class="btn btn-primary ml-1 js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</button>
+		<div class="col-lg-2 col-md-2 col-sm-6">
+			<button type="Submit" class="btn btn-primary">{{ "btn.search" | trans | capitalize }}</button>
+			{% set url = path('history_list') %}
+			<button type="Button" class="btn btn-secondary js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</button>
+		</div>
 	</div>
 <!-- Token CSRF -->
 {{ form_widget(form._token) }}

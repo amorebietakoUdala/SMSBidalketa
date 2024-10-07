@@ -10,13 +10,12 @@ use App\Form\SendingType;
 use AmorebietakoUdala\SMSServiceBundle\Services\SmsServiceApi;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
 
 #[Route(path: '/{_locale}')]
-class SendingController extends AbstractController
+class SendingController extends BaseController
 {
     public function __construct(private readonly SmsServiceApi $smsapi, private readonly EntityManagerInterface $em)
     {
@@ -143,14 +142,15 @@ class SendingController extends AbstractController
     #[Route(path: '/sending', name: 'sending_search')]
     public function sendSearch(Request $request, ContactRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var $data ContactDTO */
+            /** @var ContactDTO $data */
             $data = $form->getData();
-            if (count($data->getLabels()) > 0) {
-                $contacts = $repo->findByLabels($data->getLabels());
+            if (count($data->getLabels()->toArray()) > 0) {
+                $contacts = $repo->findByLabels($data->getLabels()->toArray());
             } else {
                 $contacts = $repo->findAll();
             }

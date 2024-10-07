@@ -54,13 +54,13 @@
 						} 
 				       }) }}
 	{{ form_errors(form) }}
-	    <div class="custom-file col-lg-5 form-row">
+	    <div class="custom-file col-lg-5 row">
 	      {{ form_widget(form.file, { 'attr': { 'class' : 'js-file custom-file-input col-lg-4' } }) }}
 		  <label id="js-label" class="custom-file-label" for="contact_import_file">{{ 'Choose file' | trans | capitalize }}</label>
 	      {{ form_errors(form.file) }}
 	    </div>
-		<h4 class="col-lg-2 form-row">{{ "contact.labels" | trans | capitalize }}</h4>
-		<div class ="js-labels-wrapper form-row" 
+		<h4 class="col-lg-2 row">{{ "contact.labels" | trans | capitalize }}</h4>
+		<div class ="js-labels-wrapper row" 
 			 data-prototype="{{ form_widget(form.labels.vars.prototype)|e('html_attr') }}"
 			 data-index="{{ form.labels|length }}"
 		>
@@ -71,11 +71,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid mt-1 form-row">
-	{{ form_widget(form.send, { 'attr': { 'class' : 'btn btn-primary mt-1 ml-1' } }) }}
-	{% set url = path('contact_list') %}
-		<button type="Button" class="btn btn-primary mt-1 ml-1 js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</button>
-    </div>
+	<div class="container-fluid row mt-1">
+		<div>
+			{{ form_widget(form.send, { 'attr': { 'class' : 'btn btn-primary mt-1 ml-1' } }) }}
+			{% set url = path('contact_list') %}
+			<a type="Button" class="btn btn-secondary mt-1 ml-1 js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</a>
+		</div>
+   </div>
 	
 	<!-- Token CSRF -->
 	{{ form_widget(form._token) }}

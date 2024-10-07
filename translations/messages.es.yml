@@ -23,6 +23,7 @@ btn.back: "Volver"
 btn.addLabel: "Añadir etiqueta"
 btn.search: "Buscar"
 btn.searchRecipients: "Buscar destinatarios"
+btn.clean: "Limpiar"
 
 ########################################################
 # Menu

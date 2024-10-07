@@ -23,6 +23,7 @@ btn.back: "Itzuli"
 btn.addLabel: "Etiketa gehitu"
 btn.search: "Bilatu"
 btn.searchRecipients: "Hartzaileak bilatu"
+btn.clean: "Garbitu"
 
 ########################################################
 # Menu

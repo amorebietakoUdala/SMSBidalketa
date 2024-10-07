@@ -1,6 +1,7 @@
 import { startStimulusApp } from '@symfony/stimulus-bridge';
+import { table } from '@amorebietakoudala/stimulus-controller-bundle/src/table_controller';
 import { datetimepicker } from '@amorebietakoudala/stimulus-controller-bundle/src/datetimepicker_controller';
-//import { table } from '@amorebietakoudala/stimulus-controller-bundle/src/table_controller';
+import { locale } from '@amorebietakoudala/stimulus-controller-bundle/src/locale_controller';
 
 // Registers Stimulus controllers from controllers.json and in the controllers/ directory
 export const app = startStimulusApp(require.context(
@@ -11,6 +12,6 @@ export const app = startStimulusApp(require.context(
 
 // register any custom, 3rd party controllers here
 // app.register('some_controller_name', SomeImportedController);
+app.register('table', table);
 app.register('datetimepicker', datetimepicker );
-//app.register('table', table );
-//app.register('select2', select2 );
+app.register('locale', locale );

@@ -1,8 +1,8 @@
-{{ form_start(form, {'attr': {'class': 'container-fluid form-group',
+{{ form_start(form, {'attr': {'class': 'container-fluid',
 						 'novalidate': 'novalidate'
 						} 
 }) }}
-    <div class="form-row align-items-center mb-1"> 
+    <div class="row align-items-center mb-1"> 
 		<div class="col-lg-2 col-md-2 col-sm-6">
 			{{ form_row(form.telephone, { 'attr': { 'id': '', 'class' : 'form-control-sm' } }) }}
 		</div>
@@ -29,7 +29,7 @@
       </ul>
    </div>
 
-	<div class ="form-row js-labels-wrapper col-lg-2 col-md-2 col-sm-6 align-items-center" 
+	<div class ="row js-labels-wrapper col-lg-2 col-md-2 col-sm-6 align-items-center" 
 		 data-prototype="{{ form_widget(form.labels.vars.prototype)|e('html_attr') }}"
 		 data-index="{{ form.labels|length }}"
 	>
@@ -51,12 +51,14 @@
          </a>
       {% endif %}
     </div>
-    <div class="form-row align-items-center mt-3"> 	
-	{% if readonly == false %}
-		<button type="Submit" class="btn btn-primary ml-1">{{ "btn.save" | trans | capitalize }}</button>
-	{% endif %}
-	{% set url = path('contact_list') %}
-		<button type="Button" class="btn btn-primary ml-1 js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</button>
+    <div class="row align-items-center mt-3">
+	 	<div class="col-lg">
+			{% if readonly == false %}
+				<button type="Submit" class="btn btn-primary ml-1">{{ "btn.save" | trans | capitalize }}</button>
+			{% endif %}
+			{% set url = path('contact_list') %}
+			<a class="btn btn-secondary" href="{{ returnUrl is defined and not returnUrl is empty ? returnUrl : path('contact_list') }}">{{ 'btn.back' | trans }}</a>
+		<div>
     </div>
 <!-- Token CSRF -->
 {{ form_widget(form._token) }}

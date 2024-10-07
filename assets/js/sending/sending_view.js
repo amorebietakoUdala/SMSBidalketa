@@ -55,22 +55,23 @@ function checkMessageLength(content) {
 
 $(document).ready(function(){
    $('#sending_labels').select2();
-	$('#taula').bootstrapTable({
-		cache : false,
-		showExport: true,
-		exportTypes: ['excel'],
-		exportDataType: 'all',
-		exportOptions: {
-			fileName: "destinatarios",
-		},
-		pagination: false,
-		search: true,
-		striped: true,
-		sortStable: true,
-		sortable: true,
-		locale: $('html').attr('lang')+'-'+$('html').attr('lang').toUpperCase(),
-		multipleSelectRow: true,
-	});
+	// Not needed stimulus controller makes the bootstraptable
+	// $('#taula').bootstrapTable({
+	// 	cache : false,
+	// 	showExport: true,
+	// 	exportTypes: ['excel'],
+	// 	exportDataType: 'all',
+	// 	exportOptions: {
+	// 		fileName: "destinatarios",
+	// 	},
+	// 	pagination: false,
+	// 	search: true,
+	// 	striped: true,
+	// 	sortStable: true,
+	// 	sortable: true,
+	// 	locale: $('html').attr('lang')+'-'+$('html').attr('lang').toUpperCase(),
+	// 	multipleSelectRow: true,
+	// });
 	var $table = $('#taula');
 	$(function () {
 		$('#toolbar').find('select').change(function () {

@@ -7,16 +7,16 @@ use App\Form\LabelType;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/{_locale}', requirements: ['_locale' => 'es|eu|en'])]
-class LabelController extends AbstractController
+class LabelController extends BaseController
 {
     #[Route(path: '/labels', name: 'label_list')]
-    public function list(LabelRepository $repo)
+    public function list(Request $request, LabelRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $labels = $repo->findAll();
 
         return $this->render('label/list.html.twig', [
@@ -27,6 +27,7 @@ class LabelController extends AbstractController
     #[Route(path: '/label/new', name: 'label_new')]
     public function new(Request $request, LabelRepository $repo, EntityManagerInterface $em)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(LabelType::class, new Label());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,8 +53,9 @@ class LabelController extends AbstractController
     }
 
     #[Route(path: '/label/{label}', name: 'label_show')]
-    public function show(Label $label)
+    public function show(Request $request, Label $label)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(LabelType::class, $label, [
         ]);
 
@@ -67,6 +69,7 @@ class LabelController extends AbstractController
     #[Route(path: '/label/{label}/edit', name: 'label_edit')]
     public function edit(Request $request, Label $label, EntityManagerInterface $em)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(LabelType::class, $label);
 
         $form->handleRequest($request);
@@ -87,8 +90,9 @@ class LabelController extends AbstractController
     }
 
     #[Route(path: '/label/{label}/delete', name: 'label_delete')]
-    public function delete(Label $label, EntityManagerInterface $em)
+    public function delete(Request $request, Label $label, EntityManagerInterface $em)
     {
+        $this->loadQueryParameters($request);
         $em->remove($label);
         $em->flush();
 

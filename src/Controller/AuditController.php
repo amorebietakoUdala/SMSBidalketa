@@ -6,18 +6,18 @@ use App\DTO\AuditSearchDTO;
 use App\Entity\Audit;
 use App\Form\AuditSearchType;
 use App\Repository\AuditRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Translation\TranslatableMessage;
 
 #[Route(path: '/{_locale}')]
-class AuditController extends AbstractController
+class AuditController extends BaseController
 {
     #[Route(path: '/audit', name: 'audit_list')]
     public function list(Request $request, AuthorizationCheckerInterface $authChecker, AuditRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(AuditSearchType::class, new AuditSearchDTO());
         $criteria = [];
         $limit = $this->getParameter('resultLimit');
