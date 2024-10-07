@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e6bfca6afbae57bd6655ba32909dcbf",
+    "content-hash": "edc4ca4ce4ba13f394ee8ca8aee97870",
     "packages": [
         {
             "name": "amorebietakoudala/smsservice-bundle",
@@ -55,11 +55,17 @@
         },
         {
             "name": "amorebietakoudala/stimulus-controller-bundle",
-            "version": "dev-main",
+            "version": "1.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amorebietakoUdala/stimulus-controller-bundle.git",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../bundles/stimulus-controller-bundle",
-                "reference": "404afc240be50f8c1d84dc10b8ec95003c692fff"
+                "type": "zip",
+                "url": "https://api.github.com/repos/amorebietakoUdala/stimulus-controller-bundle/zipball/f791aad6302040753c9b83bc814755496a35a05b",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b",
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.2.5",
@@ -69,6 +75,7 @@
                 "symfony/flex": "<1.13"
             },
             "type": "symfony-bundle",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -86,9 +93,11 @@
                 "stimulus",
                 "stimulus-controller-bundle"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/issues",
+                "source": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/tree/1.0.13"
+            },
+            "time": "2024-10-07T07:58:56+00:00"
         },
         {
             "name": "amorebietakoudala/user-bundle",
@@ -8797,16 +8806,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.12.5",
+            "version": "1.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17"
+                "reference": "dc4d2f145a88ea7141ae698effd64d9df46527ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17",
-                "reference": "7e6c6cb7cecb0a6254009a1a8a7d54ec99812b17",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/dc4d2f145a88ea7141ae698effd64d9df46527ae",
+                "reference": "dc4d2f145a88ea7141ae698effd64d9df46527ae",
                 "shasum": ""
             },
             "require": {
@@ -8851,7 +8860,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-26T12:45:22+00:00"
+            "time": "2024-10-06T15:03:59+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -10876,7 +10885,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
