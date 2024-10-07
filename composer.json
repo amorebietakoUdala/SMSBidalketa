@@ -1,14 +1,13 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "amorebietakoudala/smsservice-bundle": "*",
-        "amorebietakoudala/stimulus-controller-bundle": "dev-main",
+        "amorebietakoudala/smsservice-bundle": "^2.0",
         "amorebietakoudala/user-bundle": "^2.0.1",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
@@ -67,10 +66,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/",
-            "AmorebietakoUdala\\SMSServiceBundle\\": "/var/www/bundles/smsservice-bundle/src/",
-            "AmorebietakoUdala\\StimulusControllerBundle\\": "/var/www/bundles/stimulus-controller-bundle/src/"
-        }
+            "App\\Tests\\": "tests/"        }
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -113,15 +109,5 @@
         "symfony/phpunit-bridge": "^7.0",
         "symfony/stopwatch": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*"
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../bundles/smsservice-bundle"
-        },
-        {
-            "type": "path",
-            "url": "../../bundles/stimulus-controller-bundle"
-        }
-    ]
+    }
 }
