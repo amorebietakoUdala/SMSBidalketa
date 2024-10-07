@@ -6,6 +6,7 @@ use App\DTO\ContactDTO;
 use App\Entity\Contact;
 use App\Entity\Label;
 use App\Form\ContactImportType;
+use App\Form\ContactSearchType;
 use App\Form\ContactType;
 use App\Repository\ContactRepository;
 use App\Repository\LabelRepository;
@@ -13,12 +14,11 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use League\Csv\Reader;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/{_locale}')]
-class ContactController extends AbstractController
+class ContactController extends BaseController
 {
     public function __construct(private readonly EntityManagerInterface $em, private readonly LabelRepository $labelRepo)
     {
@@ -27,6 +27,7 @@ class ContactController extends AbstractController
     #[Route(path: '/contacts/import', name: 'contact_import')]
     public function import(Request $request, ContactRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(ContactImportType::class, null);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -106,11 +107,12 @@ class ContactController extends AbstractController
     #[Route(path: '/contacts', name: 'contact_list')]
     public function list(Request $request, ContactRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $contacts = [];
-        $form = $this->createForm(\App\Form\ContactSearchType::class, new ContactDTO());
+        $form = $this->createForm(ContactSearchType::class, new ContactDTO());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            /* @var ContactDTO $data */
+            /** @var ContactDTO $data */
             $data = $form->getData();
             $contact = new Contact();
             $data->fill($contact);
@@ -160,6 +162,7 @@ class ContactController extends AbstractController
     #[Route(path: '/contact/{contact}/edit', name: 'contact_edit')]
     public function edit(Request $request, Contact $contact, ContactRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $contactDTO = new ContactDTO($contact);
 
         $originalTelephone = $contact->getTelephone();
@@ -197,8 +200,9 @@ class ContactController extends AbstractController
     }
 
     #[Route(path: '/contact/{contact}', name: 'contact_show')]
-    public function show(Contact $contact)
+    public function show(Request $request, Contact $contact)
     {
+        $this->loadQueryParameters($request);
         $contactDTO = new ContactDTO($contact);
 
         $form = $this->createForm(ContactType::class, $contactDTO, []);
@@ -211,8 +215,9 @@ class ContactController extends AbstractController
     }
 
     #[Route(path: '/contact/{contact}/delete', name: 'contact_delete')]
-    public function delete(Contact $contact)
+    public function delete(Request $request, Contact $contact)
     {
+        $this->loadQueryParameters($request);
         $this->em->remove($contact);
         $this->em->flush();
         $this->addFlash('success', 'Contact deleted');

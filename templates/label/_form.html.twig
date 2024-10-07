@@ -1,19 +1,20 @@
-{{ form_start(form, {'attr': {'class': 'container-fluid form-group',
+{{ form_start(form, {'attr': {'class': 'container-fluid',
 						 'novalidate': 'novalidate'
 						} 
 }) }}
-    <div class="form-row align-items-center mb-1"> 
+    <div class="row align-items-center mb-1"> 
 		<div class="col-lg-2 col-md-2 col-sm-6">
 			{{ form_row(form.name, { 'attr': { 'id': '', 'class' : 'form-control-sm', 'readonly' : readonly } }) }}
 		</div>
 	</div>
-    <div class="form-row align-items-center mt-3"> 	
-	{% if readonly == false %}
-		<button type="Submit" class="btn btn-primary ml-1">{{ "btn.save" | trans | capitalize }}</button>
-	{% endif %}
-	{% set url = path('label_list') %}
-		<button type="Button" class="btn btn-primary ml-1 js-back" data-url="{{ url }}">{{ "btn.back" | trans | capitalize }}</button>
-    </div>
+    <div class="row align-items-center mt-3">
+		<div>
+			{% if readonly == false %}
+				<button type="Submit" class="btn btn-primary ml-1">{{ "btn.save" | trans | capitalize }}</button>
+			{% endif %}
+			<a class="btn btn-secondary" href="{{ returnUrl is defined and not returnUrl is empty ? returnUrl : path('label_list') }}">{{ 'btn.back' | trans }}</a>
+		</div>
+   </div>
 {{ form_widget(form._token) }}
 {{ form_end(form, {'render_rest': false, 
 				   'attr': {'class': '',

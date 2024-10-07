@@ -146,6 +146,10 @@ main {
 	border-radius: 0.2rem;
 }
 
+table a {
+    text-decoration: none;
+}
+
 @media (max-width: 767px) {
 	.logo {
 		height: 50px;

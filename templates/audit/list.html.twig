@@ -30,7 +30,11 @@
 
 		<div class="container-fluid mt-1">
 			{% if audits is defined and audits|length > 0 %}
-				<table id="taula" class="table bootstrap-table mt-3">
+				<div id="content" class="container-fluid" {{ stimulus_controller('table', 
+									{ 'url': path('audit_list'),
+									'exportName': 'audits',
+								})}} data-action="entity:success->table#refreshContent" data-table-target="content">				
+				<table id="taula" class="table" data-table-target="table">
 					<thead>
 						<tr>
 							<th data-sortable="true">{{"audit.id" | trans | capitalize}}</th>
@@ -60,8 +64,9 @@
 						{% endfor %}
 					</tbody>
 				</table>
+			</div>
 			{% else %}
-				<div class='border border-secondary rounded-sm text-secondary bg-light text-center p-2'>{{"messages.results0" | trans }}</div>
+				<div class="alert alert-secondary mt-3" role="alert">{{"messages.results0" | trans }}</div>
 			{% endif %}
 		</div>
 	</main>

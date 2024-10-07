@@ -4,6 +4,7 @@ namespace App\DTO;
 
 use App\Entity\Contact;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 class ContactDTO
 {
@@ -12,7 +13,7 @@ class ContactDTO
     private $name;
     private $surname1;
     private $surname2;
-    private $labels;
+    private Collection $labels;
 
     public function __construct(Contact $contact = null)
     {
