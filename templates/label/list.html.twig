@@ -19,40 +19,36 @@
 {% block body %}
     <main class="container-fluid">
 	<div class="container-fluid">
-		<table id="taula" class="table bootstrap-table mt-3"  data-locale="es-{{ app.request.locale | upper }}">
-		<thead>
-		   <tr>
-				<th data-sortable="true">{{"label.id" | trans | capitalize}}</th>
-				<th data-sortable="true">{{"label.name" | trans | capitalize}}</th>
-				<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
-		   </tr>
-		</thead>
-		<tbody>
-		    {% if labels is defined and labels|length > 0 %}
-			{% for label in labels %}
-			<tr>
-			    <td>{{label.id}}</td>
-				<td>{{label.name}}</td>
-				<td>
-					&nbsp;<a href="{{ path ("label_edit",{"label" : label.id}) }}"><i class="fa fa-edit"></i></a>
-					&nbsp;<a class="js-delete" 
-							href="#" 
-							data-url="{{ path ("label_delete",{"label" : label.id}) }}" 
-							data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}"
-							data-message="{% trans with {'%contactsCount%': label.contacts|length} %}label.delete.confirmation{% endtrans %}"
-							data-confirm = "{{ "messages.si" | trans | capitalize }}"
-							data-cancel = "{{ "messages.no" | trans | capitalize }}"
-							data-affecttedContacts ="{{ label.contacts | length }}"
-					>
-					<i class="fa fa-trash"></i></a>
-			    </td>
-			</tr>
-			{% endfor %}
-		    {% else %}
-			<tr><td class="text-center" colspan="3">{{"messages.results0" | trans }}</td></tr>
-		    {% endif %}
-		</tbody>
-	    </table>
+		{% if labels is defined and labels|length > 0 %}
+			<table id="taula" class="table bootstrap-table mt-3" data-locale="es-{{ app.request.locale | upper }}">
+				<thead>
+					<tr>
+						<th data-sortable="true">{{"label.id" | trans | capitalize}}</th>
+						<th data-sortable="true">{{"label.name" | trans | capitalize}}</th>
+						<th data-sortable="true" data-field="options">{{"table.options" | trans | capitalize}}</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for label in labels %}
+						<tr>
+							<td>{{label.id}}</td>
+							<td>{{label.name}}</td>
+							<td>
+								&nbsp;<a href="{{ path ("label_edit",{"label" : label.id}) }}">
+									<i class="fa fa-edit"></i>
+								</a>
+								&nbsp;<a class="js-delete" href="#" data-url="{{ path ("label_delete",{"label" : label.id}) }}" data-confirmation="{{ "messages.confirmacion" | trans | capitalize }}" data-message="{% trans with {'%contactsCount%': label.contacts|length} %}label.delete.confirmation{% endtrans %}" data-confirm="{{ "messages.si" | trans | capitalize }}" data-cancel="{{ "messages.no" | trans | capitalize }}" data-affecttedcontacts="{{ label.contacts | length }}">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="border border-secondary rounded-sm text-secondary bg-light text-center p-2" role="alert">{{"messages.results0" | trans }}</div>
+		{% endif %}
 	    <span class="pull-right"><a href="{{ path ('label_new') }}" class="btn btn-primary btn-rounded fixed-bottom-right"><i class="fa fa-plus" title='{{ "btn.new" | trans | capitalize }}'></i></a></span>
 	</div>
     </main>
