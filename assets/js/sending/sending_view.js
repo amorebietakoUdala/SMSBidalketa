@@ -10,11 +10,6 @@ import 'bootstrap-table/dist/locale/bootstrap-table-eu-EU';
 //import 'bootstrap-table/dist/extensions/multiple-selection-row/bootstrap-table-multiple-selection-row'
 //import 'bootstrap-table/dist/extensions/select2-filter/bootstrap-table-select2-filter'
 import 'jquery-ui';
-import 'bootstrap-datepicker';
-import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.es';
-import 'bootstrap-datepicker/js/locales/bootstrap-datepicker.eu';
-import 'eonasdan-bootstrap-datetimepicker';
-import 'pc-bootstrap4-datetimepicker';
 import '../components/select2';
 
 // There's a problem with dynamic import's in webpack and IE 11
@@ -158,12 +153,6 @@ $(document).ready(function(){
 		var form = $('#form');
 		$(form).attr('action',e.currentTarget.dataset.url);
 		form.submit();
-	});
-
-    $('.js-datetimepicker').datetimepicker({
-		format: 'YYYY-MM-DD HH:mm',
-		sideBySide: true,
-		locale: $('html').attr('lang'),
 	});
 
 	$('#taula').bootstrapTable('checkAll');

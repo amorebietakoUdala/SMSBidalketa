@@ -40,3 +40,5 @@ yarn-error.log
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+*.prod
+*.dev

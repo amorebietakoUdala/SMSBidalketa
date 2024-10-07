@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37d75e3c5b7bbb638ca3675806126097",
+    "content-hash": "3e6bfca6afbae57bd6655ba32909dcbf",
     "packages": [
         {
             "name": "amorebietakoudala/smsservice-bundle",
@@ -52,6 +52,43 @@
                 "source": "https://github.com/amorebietakoUdala/SMSServiceBundle/tree/2.0"
             },
             "time": "2024-01-23T09:05:30+00:00"
+        },
+        {
+            "name": "amorebietakoudala/stimulus-controller-bundle",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../../bundles/stimulus-controller-bundle",
+                "reference": "404afc240be50f8c1d84dc10b8ec95003c692fff"
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/webpack-encore-bundle": "^1.11 || ^2.1"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "type": "symfony-bundle",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amorebietako Udala",
+                    "email": "informatika@amorebieta.eus"
+                }
+            ],
+            "description": "Most usual stimulus controllers",
+            "keywords": [
+                "AmorebietakoUdala",
+                "hotwire",
+                "javascript",
+                "stimulus",
+                "stimulus-controller-bundle"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "amorebietakoudala/user-bundle",
@@ -10839,7 +10876,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,

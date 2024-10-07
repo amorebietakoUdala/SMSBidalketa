@@ -4,10 +4,22 @@
 }) }}
     <div class="form-row align-items-center mb-1"> 
 		<div class="col-lg-2 col-md-2 col-sm-6">
-			{{ form_row(form.fromDate, { 'attr': { 'id': '', 'class' : 'js-datetimepicker form-control-sm'} }) }}
+            {{ form_row(form.fromDate, { 'attr': { 
+                    'class' : 'form-control-sm', 
+                    'data-controller' : 'datetimepicker', 
+						  'data-datetimepicker-format-value': 'yyyy-MM-dd HH:mm', 
+						  'data-datetimepicker-show-clock-value': true,
+					}
+            }) }}
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-6">
-			{{ form_row(form.toDate, { 'attr': { 'id': '', 'class' : 'js-datetimepicker form-control-sm'} }) }}
+            {{ form_row(form.toDate, { 'attr': { 
+                    'class' : 'form-control-sm', 
+                    'data-controller' : 'datetimepicker', 
+						  'data-datetimepicker-format-value': 'yyyy-MM-dd HH:mm', 
+						  'data-datetimepicker-show-clock-value': true,
+					}
+            }) }}
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-6">
 			{{ form_row(form.rctpNameNumber, { 'attr': { 'id': '', 'class' : 'form-control-sm' } }) }}
