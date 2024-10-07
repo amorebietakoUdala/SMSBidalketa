@@ -4,24 +4,6 @@
 	{{'messages.appTitle' | trans }}
 {% endblock %}
 
-{% block message %}
-	{% for msg in app.session.flashBag.get('success') %}
-		<div class="alert alert-success margin-top-13">
-			{{ msg | trans}}
-		</div>
-	{% endfor %}
-	{% for msg in app.session.flashBag.get('error') %}
-		<div class="alert alert-danger margin-top-13">
-			{{ msg | trans}}
-		</div>
-	{% endfor %}
-	{% for msg in app.session.flashBag.get('warning') %}
-		<div class="alert alert-warning margin-top-13">
-			{{ msg | trans }}
-		</div>
-	{% endfor %}
-{% endblock %}
-
 {% block body %}
 	<main class="container-fluid">
 		<div class="container-fluid border rounded border-secondary p-2">
