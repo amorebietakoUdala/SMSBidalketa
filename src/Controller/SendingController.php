@@ -98,9 +98,9 @@ class SendingController extends BaseController
                     'credits' => $credit,
                 ]);
             }
-            $audit = Audit::createAudit($telephones, '', '', '', $user, $data->getMessage());
+            $audit = Audit::createAudit($telephones, '', '', '', $user, $this->smsapi->getProvider(), $data->getMessage());
             try {
-                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate(), $audit->getDeliveryId());
+                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate());
                 if (null !== $response) {
                     $audit->setMessage($response['message']);
                     $audit->setResponseCode($response['responseCode']);

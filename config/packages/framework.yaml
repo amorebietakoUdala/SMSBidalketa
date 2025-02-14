@@ -20,10 +20,10 @@ framework:
     php_errors:
         log: true
 
-when@dev:
-    framework:
-        # Add this to test error pages on dev
-        error_controller: App\Controller\AppErrorController::show
+# when@dev:
+#     framework:
+#         # Add this to test error pages on dev
+#         error_controller: App\Controller\AppErrorController::show
 
 when@test:
     framework:

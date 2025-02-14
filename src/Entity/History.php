@@ -239,6 +239,9 @@ class History
             case 'Smspubli':
                 $this->loadSmsPubliFromArray($array);
                 break;
+            case 'Sarenet':
+                $this->loadSarenetFromArray($array);
+                break;
         }
         $this->setProvider($provider);
     }
@@ -252,6 +255,7 @@ class History
         $this->setText($array['text']);
         if ('DELIVRD' === $array['status'] ) {
             $this->setStatus('SENT');
+        // al menos un estado es rechazado
         } else {
             $this->setStatus($array['status']);
         }
@@ -281,5 +285,19 @@ class History
         $this->setIp($array['ip']);
         $this->setStatus($array['status']);
         $this->setEsUnicode($array['es_unicode']);
+    }
+
+    private function loadSarenetFromArray($array) {
+        $this->setProviderId($array['deliveryId']);
+        $this->setDate($array['date']);
+        $this->setSenderAccount($array['sender']);
+        $this->setRctpNameNumber($array['rctp_name_number']);
+        $this->setText($array['text']);
+        if ( 'enviado' === $array['status'] ) {
+            $this->setStatus('SENT');
+        } else {
+            $this->setStatus($array['status']);
+        }
+        $this->setProvider($array['provider']);
     }
 }
