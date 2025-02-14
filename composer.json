@@ -8,7 +8,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "amorebietakoudala/smsservice-bundle": "^2.0",
-        "amorebietakoudala/stimulus-controller-bundle": "^1.0",
         "amorebietakoudala/user-bundle": "^2.0.1",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",

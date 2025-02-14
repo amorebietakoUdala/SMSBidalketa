@@ -58,6 +58,9 @@ class Audit
     #[ORM\Column(name: 'messageContent', type: 'string', nullable: 'true')]
     private $messageContent;
 
+    #[ORM\Column(length: 255, nullable: 'true')]
+    private ?string $provider = null;
+
     public function __construct()
     {
         $date = new DateTimeImmutable();
@@ -142,7 +145,7 @@ class Audit
         return $this;
     }
 
-    public static function createAudit(array $telephones, $responseCode, $message, $fullResponse, $user, $messageContent = null): Audit
+    public static function createAudit(array $telephones, $responseCode, $message, $fullResponse, $user, $provider, $messageContent = null): Audit
     {
         $audit = new self();
         $audit->setTelephones(json_encode($telephones));
@@ -152,6 +155,7 @@ class Audit
         $audit->setResponse(json_encode($fullResponse));
         $audit->setUser($user);
         $audit->setMessageContent($messageContent);
+        $audit->setProvider($provider);
 
         return $audit;
     }
@@ -179,4 +183,17 @@ class Audit
 
         return $this;
     }
+
+    public function getProvider(): ?string
+    {
+        return $this->provider;
+    }
+
+    public function setProvider(string $provider): static
+    {
+        $this->provider = $provider;
+
+        return $this;
+    }
+
 }

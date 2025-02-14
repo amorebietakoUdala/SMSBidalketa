@@ -12,6 +12,40 @@ class AuditRepository extends ServiceEntityRepository
         parent::__construct($registry, \App\Entity\Audit::class);
     }
 
+    public function findByDeliveryId(string $deliveryId)
+    {
+        $qb = $this->createQueryBuilder('a');
+        return $this->addDeliveryIdEquals($qb, $deliveryId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findDeliveryIdGTForProvider(string $provider, string $deliveryId)
+    {
+        $qb = $this->createQueryBuilder('a');
+        $qb = $this->addDeliveryIdGT($qb, $deliveryId);
+        $qb = $this->addProviderEquals($qb, $provider);
+        return $qb->getQuery()->getResult();
+    }
+
+    private function addProviderEquals($qb, $provider)
+    {
+        return $qb->andWhere('a.provider = :provider')
+            ->setParameter('provider', $provider);
+    }
+
+    private function addDeliveryIdEquals($qb, $deliveryId)
+    {
+        return $qb->andWhere('a.deliveryId = :deliveryId')
+            ->setParameter('deliveryId', $deliveryId);
+    }
+
+    private function addDeliveryIdGT($qb, $deliveryId)
+    {
+        return $qb->andWhere('a.deliveryId > :deliveryId')
+            ->setParameter('deliveryId', $deliveryId);
+    }
+
     public function findByTimestamp(array $criteria = null, array $order = null, $limit = null)
     {
         $criteria = $this->__remove_blank_filters($criteria);
@@ -42,6 +76,7 @@ class AuditRepository extends ServiceEntityRepository
 
         return $result;
     }
+
 
     private function __addEqualCriteria($qb, array $criteriaEqual)
     {

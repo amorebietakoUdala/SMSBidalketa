@@ -1,5 +1,5 @@
 sms_service:
-    provider: '%env(SMS_PROVIDER)%' # Acumbamail o Dinahosting o SmsPubli
+    provider: '%env(SMS_PROVIDER)%' # Acumbamail o Dinahosting o SmsPubli o Sarenet
     test: '%env(bool:SMS_TEST)%'
     providers:
         dinahosting: 
@@ -23,3 +23,8 @@ sms_service:
             countryCode: '34'
             confirmationRouteName: 'api_sending_smspubli_confirmation'
             domainUrl: '%env(SMS_PUBLI_DOMAIN_URL)%'
+        sarenet:
+            sender: 'AMOREBIETA'
+            clave: '%env(SMS_SARENET_CLAVE)%'
+            authToken: '%env(SMS_SARENET_AUTH_TOKEN)%'
+            timeout: 60.0
