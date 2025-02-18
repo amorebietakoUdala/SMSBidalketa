@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d4f6cdfe863f3f0082f8b5d3a963b97e",
+    "content-hash": "37d75e3c5b7bbb638ca3675806126097",
     "packages": [
         {
             "name": "amorebietakoudala/smsservice-bundle",
-            "version": "dev-master",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amorebietakoUdala/SMSServiceBundle.git",
+                "reference": "3d07af19dd85f3c31e6b209f59f5b4f3f3dab685"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../bundles/smsservice-bundle",
-                "reference": "5cc5248055b9da722d70e95f5955c20bc4a30c16"
+                "type": "zip",
+                "url": "https://api.github.com/repos/amorebietakoUdala/SMSServiceBundle/zipball/3d07af19dd85f3c31e6b209f59f5b4f3f3dab685",
+                "reference": "3d07af19dd85f3c31e6b209f59f5b4f3f3dab685",
+                "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -27,6 +33,7 @@
                     "AmorebietakoUdala\\SMSServiceBundle\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -40,55 +47,11 @@
             "keywords": [
                 "Send SMS Dinahosting DinaSMS Acumbamail SmsPubli"
             ],
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "amorebietakoudala/stimulus-controller-bundle",
-            "version": "1.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/amorebietakoUdala/stimulus-controller-bundle.git",
-                "reference": "f791aad6302040753c9b83bc814755496a35a05b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/amorebietakoUdala/stimulus-controller-bundle/zipball/f791aad6302040753c9b83bc814755496a35a05b",
-                "reference": "f791aad6302040753c9b83bc814755496a35a05b",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/webpack-encore-bundle": "^1.11 || ^2.1"
-            },
-            "conflict": {
-                "symfony/flex": "<1.13"
-            },
-            "type": "symfony-bundle",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Amorebietako Udala",
-                    "email": "informatika@amorebieta.eus"
-                }
-            ],
-            "description": "Most usual stimulus controllers",
-            "keywords": [
-                "AmorebietakoUdala",
-                "hotwire",
-                "javascript",
-                "stimulus",
-                "stimulus-controller-bundle"
-            ],
             "support": {
-                "issues": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/issues",
-                "source": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/tree/1.0.13"
+                "issues": "https://github.com/amorebietakoUdala/SMSServiceBundle/issues",
+                "source": "https://github.com/amorebietakoUdala/SMSServiceBundle/tree/2.0.2"
             },
-            "time": "2024-10-07T07:58:56+00:00"
+            "time": "2025-02-18T09:48:20+00:00"
         },
         {
             "name": "amorebietakoudala/user-bundle",
@@ -10876,10 +10839,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "amorebietakoudala/smsservice-bundle": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
