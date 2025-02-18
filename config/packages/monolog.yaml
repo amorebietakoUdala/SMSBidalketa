@@ -51,7 +51,7 @@ when@prod:
                 level: info
                 # max number of log files to keep
                 # defaults to zero, which means infinite files
-                max_files: 10
+                max_files: 31
             messenger:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%-messenger.log"
