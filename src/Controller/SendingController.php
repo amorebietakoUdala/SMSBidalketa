@@ -100,7 +100,7 @@ class SendingController extends BaseController
             }
             $audit = Audit::createAudit($telephones, '', '', '', $user, $this->smsapi->getProvider(), $data->getMessage());
             try {
-                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate());
+                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate(),$audit->getDeliveryId());
                 if (null !== $response) {
                     $audit->setMessage($response['message']);
                     $audit->setResponseCode($response['responseCode']);
