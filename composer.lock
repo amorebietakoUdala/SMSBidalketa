@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37d75e3c5b7bbb638ca3675806126097",
+    "content-hash": "d4f6cdfe863f3f0082f8b5d3a963b97e",
     "packages": [
         {
             "name": "amorebietakoudala/smsservice-bundle",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/amorebietakoUdala/SMSServiceBundle.git",
-                "reference": "5cc5248055b9da722d70e95f5955c20bc4a30c16"
-            },
+            "version": "dev-master",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/amorebietakoUdala/SMSServiceBundle/zipball/5cc5248055b9da722d70e95f5955c20bc4a30c16",
-                "reference": "5cc5248055b9da722d70e95f5955c20bc4a30c16",
-                "shasum": ""
+                "type": "path",
+                "url": "../../bundles/smsservice-bundle",
+                "reference": "5cc5248055b9da722d70e95f5955c20bc4a30c16"
             },
             "require": {
                 "ext-curl": "*",
@@ -33,7 +27,6 @@
                     "AmorebietakoUdala\\SMSServiceBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -47,11 +40,55 @@
             "keywords": [
                 "Send SMS Dinahosting DinaSMS Acumbamail SmsPubli"
             ],
-            "support": {
-                "issues": "https://github.com/amorebietakoUdala/SMSServiceBundle/issues",
-                "source": "https://github.com/amorebietakoUdala/SMSServiceBundle/tree/2.0.1"
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "amorebietakoudala/stimulus-controller-bundle",
+            "version": "1.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amorebietakoUdala/stimulus-controller-bundle.git",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b"
             },
-            "time": "2025-02-14T08:06:21+00:00"
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amorebietakoUdala/stimulus-controller-bundle/zipball/f791aad6302040753c9b83bc814755496a35a05b",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/webpack-encore-bundle": "^1.11 || ^2.1"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "type": "symfony-bundle",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amorebietako Udala",
+                    "email": "informatika@amorebieta.eus"
+                }
+            ],
+            "description": "Most usual stimulus controllers",
+            "keywords": [
+                "AmorebietakoUdala",
+                "hotwire",
+                "javascript",
+                "stimulus",
+                "stimulus-controller-bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/issues",
+                "source": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/tree/1.0.13"
+            },
+            "time": "2024-10-07T07:58:56+00:00"
         },
         {
             "name": "amorebietakoudala/user-bundle",
@@ -5086,16 +5123,16 @@
         },
         {
             "name": "symfony/messenger",
-            "version": "v6.4.12",
+            "version": "v6.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/messenger.git",
-                "reference": "05035355ef94de2cb054f8697e65d82f67bf89d4"
+                "reference": "b20092876c3d23c172a6469f9c0d7ef1de445257"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/messenger/zipball/05035355ef94de2cb054f8697e65d82f67bf89d4",
-                "reference": "05035355ef94de2cb054f8697e65d82f67bf89d4",
+                "url": "https://api.github.com/repos/symfony/messenger/zipball/b20092876c3d23c172a6469f9c0d7ef1de445257",
+                "reference": "b20092876c3d23c172a6469f9c0d7ef1de445257",
                 "shasum": ""
             },
             "require": {
@@ -5153,7 +5190,7 @@
             "description": "Helps applications send and receive messages to/from other applications or via message queues",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/messenger/tree/v6.4.12"
+                "source": "https://github.com/symfony/messenger/tree/v6.4.16"
             },
             "funding": [
                 {
@@ -5169,7 +5206,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-09-08T12:31:10+00:00"
+            "time": "2024-11-25T02:02:03+00:00"
         },
         {
             "name": "symfony/mime",
@@ -10839,8 +10876,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "amorebietakoudala/smsservice-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
