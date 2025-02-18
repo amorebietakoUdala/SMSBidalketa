@@ -14,7 +14,7 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%-messenger.log"
                 level: debug
-                channels: ["messenger","app"]
+                channels: ["messenger","api"]
             # uncomment to get logging in your browser
             # you may have to allow bigger header sizes in your Web server configuration
             #firephp:
@@ -48,15 +48,15 @@ when@prod:
             main:
                 type:  rotating_file
                 path:  '%kernel.logs_dir%/%kernel.environment%.log'
-                level: debug
+                level: info
                 # max number of log files to keep
                 # defaults to zero, which means infinite files
                 max_files: 10
             messenger:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%-messenger.log"
-                level: debug
-                channels: ["messenger","app"]
+                level: info
+                channels: ["messenger","api"]
             nested:
                 type: stream
                 path: php://stderr

@@ -7,11 +7,13 @@ use App\Entity\History;
 use App\Message\CheckSmsNotificationStatus;
 use App\Repository\AuditRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
+#[WithMonologChannel('messenger')]
 final class CheckSmsNotificationStatusHandler implements LoggerAwareInterface
 {
 

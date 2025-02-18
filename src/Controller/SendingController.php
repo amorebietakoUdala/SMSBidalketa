@@ -8,22 +8,31 @@ use App\Entity\Audit;
 use App\Entity\Contact;
 use App\Form\SendingType;
 use AmorebietakoUdala\SMSServiceBundle\Services\SmsServiceApi;
+use App\Message\SmsNotification;
 use App\Repository\ContactRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 #[Route(path: '/{_locale}')]
-class SendingController extends BaseController
+class SendingController extends AbstractController
 {
-    public function __construct(private readonly SmsServiceApi $smsapi, private readonly EntityManagerInterface $em)
+    public function __construct(
+        private readonly SmsServiceApi $smsapi, 
+        private readonly EntityManagerInterface $em,
+        private MessageBusInterface $messageBus,
+        )
     {
     }
 
     #[Route(path: '/sending/send', name: 'sending_send')]
     public function sendingSend(Request $request, LoggerInterface $logger)
     {
+        /** @var User $user */
         $user = $this->getUser();
         $sendingDTO = new SendingDTO();
         $form = $this->createForm(SendingType::class, $sendingDTO);
@@ -98,21 +107,12 @@ class SendingController extends BaseController
                     'credits' => $credit,
                 ]);
             }
-            $audit = Audit::createAudit($telephones, '', '', '', $user, $this->smsapi->getProvider(), $data->getMessage());
+//            $audit = Audit::createAudit($telephones, '', '', '', $user, $this->smsapi->getProvider(), $data->getMessage());
             try {
-                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate(),$audit->getDeliveryId());
-                if (null !== $response) {
-                    $audit->setMessage($response['message']);
-                    $audit->setResponseCode($response['responseCode']);
-                    $audit->setResponse(json_encode($response));
-                    $logger->info('API Response: ' . json_encode($response));
-                    $this->addFlash('success', '%messages_sent% messages sended successfully');
-                } else {
-                    $this->addFlash('warning', 'The API has not responded');
-                    $logger->info('API Response: The API has not responded');
-                }
-                $this->em->persist($audit);
-                $this->em->flush();
+                $this->messageBus->dispatch(new SmsNotification($telephones, $data->getMessage(), $data->getDate() ?? new DateTime(), $user->getId()));
+//                $response = $this->smsapi->sendMessage($telephones, $data->getMessage(), $data->getDate(), $audit->getDeliveryId());
+                $this->addFlash('success', '%messages_sent% messages sended successfully');
+
                 $form = $this->createForm(SendingType::class, new SendingDTO(), []);
 
                 return $this->render('sending/list.html.twig', [
@@ -142,15 +142,14 @@ class SendingController extends BaseController
     #[Route(path: '/sending', name: 'sending_search')]
     public function sendSearch(Request $request, ContactRepository $repo)
     {
-        $this->loadQueryParameters($request);
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var ContactDTO $data */
             $data = $form->getData();
-            if (count($data->getLabels()->toArray()) > 0) {
-                $contacts = $repo->findByLabels($data->getLabels()->toArray());
+            if (count($data->getLabels()) > 0) {
+                $contacts = $repo->findByLabels($data->getLabels());
             } else {
                 $contacts = $repo->findAll();
             }

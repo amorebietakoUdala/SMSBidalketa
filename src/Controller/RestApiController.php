@@ -10,6 +10,7 @@ use App\Repository\AuditRepository;
 use App\Repository\HistoryRepository;
 use App\Repository\LabelRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,16 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 
 #[Route(path: '/api')]
+#[WithMonologChannel('api')]
 class RestApiController extends AbstractController
 {
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly AuditRepository $auditRepo, private readonly HistoryRepository $historyRepo, private readonly EntityManagerInterface $em)
+    public function __construct(
+        private readonly LoggerInterface $logger, 
+        private readonly AuditRepository $auditRepo, 
+        private readonly HistoryRepository $historyRepo, 
+        private readonly EntityManagerInterface $em
+    )
     {
     }
 

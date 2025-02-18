@@ -8,6 +8,7 @@ use App\Message\CheckSmsNotificationStatus;
 use App\Message\SmsNotification;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 #[AsMessageHandler]
+#[WithMonologChannel('messenger')]
 class SmsNotificationHandler implements LoggerAwareInterface {
 
    use LoggerAwareTrait;
@@ -34,7 +36,7 @@ class SmsNotificationHandler implements LoggerAwareInterface {
    {
       $user = $this->userRepo->find($message->getUserId());
       $audit = Audit::createAudit($message->getTelephones(), '', '', '', $user, $this->smsapi->getProvider(), $message->getMessage());
-      $this->logger->debug('Delivery ID: '. $audit->getDeliveryId());
+      $this->logger->info('Delivery ID: '. $audit->getDeliveryId());
       $response = $this->smsapi->sendMessage($message->getTelephones(), $message->getMessage(), $message->getDate(), $audit->getDeliveryId());
       if (null !== $response) {
          $audit->setMessage($response['message']);
