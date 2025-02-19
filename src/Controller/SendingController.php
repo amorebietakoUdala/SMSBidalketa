@@ -13,13 +13,12 @@ use App\Repository\ContactRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[Route(path: '/{_locale}')]
-class SendingController extends AbstractController
+class SendingController extends BaseController
 {
     public function __construct(
         private readonly SmsServiceApi $smsapi, 
@@ -32,6 +31,7 @@ class SendingController extends AbstractController
     #[Route(path: '/sending/send', name: 'sending_send')]
     public function sendingSend(Request $request, LoggerInterface $logger)
     {
+        $this->loadQueryParameters($request);
         /** @var User $user */
         $user = $this->getUser();
         $sendingDTO = new SendingDTO();
@@ -142,6 +142,7 @@ class SendingController extends AbstractController
     #[Route(path: '/sending', name: 'sending_search')]
     public function sendSearch(Request $request, ContactRepository $repo)
     {
+        $this->loadQueryParameters($request);
         $form = $this->createForm(SendingType::class, new SendingDTO());
 
         $form->handleRequest($request);
