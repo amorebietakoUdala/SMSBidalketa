@@ -1,3 +1,3 @@
 sms_service:
-    resource: "@SMSServiceBundle/Resources/config/routing.yml"
+    resource: "@SMSServiceBundle/Resources/config/routes/annotation.yaml"
     prefix:   /smsBundle
