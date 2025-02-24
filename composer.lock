@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37d75e3c5b7bbb638ca3675806126097",
+    "content-hash": "1b3725b62dac8a879bf91830b868669c",
     "packages": [
         {
             "name": "amorebietakoudala/smsservice-bundle",
@@ -52,6 +52,52 @@
                 "source": "https://github.com/amorebietakoUdala/SMSServiceBundle/tree/2.0.3"
             },
             "time": "2025-02-24T11:04:12+00:00"
+        },
+        {
+            "name": "amorebietakoudala/stimulus-controller-bundle",
+            "version": "1.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amorebietakoUdala/stimulus-controller-bundle.git",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amorebietakoUdala/stimulus-controller-bundle/zipball/f791aad6302040753c9b83bc814755496a35a05b",
+                "reference": "f791aad6302040753c9b83bc814755496a35a05b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/webpack-encore-bundle": "^1.11 || ^2.1"
+            },
+            "conflict": {
+                "symfony/flex": "<1.13"
+            },
+            "type": "symfony-bundle",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amorebietako Udala",
+                    "email": "informatika@amorebieta.eus"
+                }
+            ],
+            "description": "Most usual stimulus controllers",
+            "keywords": [
+                "AmorebietakoUdala",
+                "hotwire",
+                "javascript",
+                "stimulus",
+                "stimulus-controller-bundle"
+            ],
+            "support": {
+                "issues": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/issues",
+                "source": "https://github.com/amorebietakoUdala/stimulus-controller-bundle/tree/1.0.13"
+            },
+            "time": "2024-10-07T07:58:56+00:00"
         },
         {
             "name": "amorebietakoudala/user-bundle",
@@ -7612,104 +7658,6 @@
                 }
             ],
             "time": "2024-09-25T14:18:03+00:00"
-        },
-        {
-            "name": "symfony/ux-turbo",
-            "version": "v2.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/ux-turbo.git",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-turbo/zipball/db96cf04d70a8c820671ce55530e8bf641ada33f",
-                "reference": "db96cf04d70a8c820671ce55530e8bf641ada33f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "symfony/stimulus-bundle": "^2.9.1"
-            },
-            "conflict": {
-                "symfony/flex": "<1.13"
-            },
-            "require-dev": {
-                "dbrekelmans/bdi": "dev-main",
-                "doctrine/doctrine-bundle": "^2.4.3",
-                "doctrine/orm": "^2.8 | 3.0",
-                "phpstan/phpstan": "^1.10",
-                "symfony/asset-mapper": "^6.4|^7.0",
-                "symfony/debug-bundle": "^5.4|^6.0|^7.0",
-                "symfony/expression-language": "^5.4|^6.0|^7.0",
-                "symfony/form": "^5.4|^6.0|^7.0",
-                "symfony/framework-bundle": "^6.4|^7.0",
-                "symfony/mercure-bundle": "^0.3.7",
-                "symfony/messenger": "^5.4|^6.0|^7.0",
-                "symfony/panther": "^2.1",
-                "symfony/phpunit-bridge": "^5.4|^6.0|^7.0",
-                "symfony/process": "^5.4|6.3.*|^7.0",
-                "symfony/property-access": "^5.4|^6.0|^7.0",
-                "symfony/security-core": "^5.4|^6.0|^7.0",
-                "symfony/stopwatch": "^5.4|^6.0|^7.0",
-                "symfony/twig-bundle": "^6.4|^7.0",
-                "symfony/ux-twig-component": "^2.21",
-                "symfony/web-profiler-bundle": "^5.4|^6.0|^7.0"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/ux",
-                    "name": "symfony/ux"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\UX\\Turbo\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kévin Dunglas",
-                    "email": "kevin@dunglas.fr"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Hotwire Turbo integration for Symfony",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "hotwire",
-                "javascript",
-                "mercure",
-                "symfony-ux",
-                "turbo",
-                "turbo-stream"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/ux-turbo/tree/v2.23.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-02-06T08:47:30+00:00"
         },
         {
             "name": "symfony/validator",
