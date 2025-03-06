@@ -80,6 +80,8 @@ $(document).ready(function(){
 			});
 		});
 	});
+	$table.bootstrapTable('checkAll');
+
 	var remaining_characters_text = $('#sending_message_help').text();
 	let content = $('#sending_message').val();
 	var remaining_characters = 160 - checkMessageLength(content);
@@ -155,6 +157,4 @@ $(document).ready(function(){
 		$(form).attr('action',e.currentTarget.dataset.url);
 		form.submit();
 	});
-
-	$('#taula').bootstrapTable('checkAll');
 });
